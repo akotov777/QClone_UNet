@@ -7,7 +7,9 @@ public sealed class PlayerController : NetworkBehaviour
     #region Fields
 
     private CharacterController _characterController;
+    private IPlayerFeature[] _features;
 
+    [SerializeField] private GameObject objToSpawn;
     [SerializeField] private float _speed = 6.0f;
     [SerializeField] private float _jumpSpeed = 8.0f;
     [SerializeField] private float _gravity = 20.0f;
@@ -28,24 +30,31 @@ public sealed class PlayerController : NetworkBehaviour
 
     private void Start()
     {
-        _characterController = gameObject.GetComponent<CharacterController>();
-        _camera = gameObject.GetComponentInChildren<Camera>();
-
         if (!isLocalPlayer)
         {
-
             Destroy(_camera);
             Destroy(gameObject.GetComponent<AudioListener>());
-
         }
+        else
+        {
+            _characterController = gameObject.GetComponent<CharacterController>();
+            _camera = gameObject.GetComponentInChildren<Camera>();
+            _characterTargetRotate = _camera.transform.localRotation;
+            _cameraTargetRotate = _camera.transform.localRotation;
 
-        _characterTargetRotate = _camera.transform.localRotation;
-        _cameraTargetRotate = _camera.transform.localRotation;
+            _features = new IPlayerFeature[1];
+            _features[0] = new FiringFeature(objToSpawn);
+        }
     }
 
     private void Update()
     {
         if (!isLocalPlayer) return;
+
+        for (int i = 0; i < _features.Length; i++)
+        {
+            _features[i].ExecuteFeature();
+        }
 
         if (_characterController.isGrounded)
         {

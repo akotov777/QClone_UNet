@@ -305,6 +305,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e50013e1b858ac4094ee6e9a9431ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objToSpawn: {fileID: 7018094096498400969, guid: 1db40c5bdc44a4e4fb7c77c9e0412eea,
+    type: 3}
   _speed: 6
   _jumpSpeed: 8
   _gravity: 20
