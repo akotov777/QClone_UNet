@@ -9,7 +9,7 @@ public sealed class PlayerController : NetworkBehaviour
     private CharacterController _characterController;
     private IPlayerFeature[] _features;
 
-    [SerializeField] private GameObject objToSpawn;
+    [SerializeField] private GameObject _objToSpawn;
     [SerializeField] private float _speed = 6.0f;
     [SerializeField] private float _jumpSpeed = 8.0f;
     [SerializeField] private float _gravity = 20.0f;
@@ -30,21 +30,11 @@ public sealed class PlayerController : NetworkBehaviour
 
     private void Start()
     {
+        CommonInitialization();
+        if (isLocalPlayer)
+            LocalInitialization();
         if (!isLocalPlayer)
-        {
-            Destroy(_camera);
-            Destroy(gameObject.GetComponent<AudioListener>());
-        }
-        else
-        {
-            _characterController = gameObject.GetComponent<CharacterController>();
-            _camera = gameObject.GetComponentInChildren<Camera>();
-            _characterTargetRotate = _camera.transform.localRotation;
-            _cameraTargetRotate = _camera.transform.localRotation;
-
-            _features = new IPlayerFeature[1];
-            _features[0] = new FiringFeature(objToSpawn);
-        }
+            ServerInitialization();
     }
 
     private void Update()
@@ -56,16 +46,17 @@ public sealed class PlayerController : NetworkBehaviour
             _features[i].ExecuteFeature();
         }
 
-        if (_characterController.isGrounded)
-        {
-            Vector3 desiredMove = transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal");
-            _moveDirection = desiredMove *_speed;
 
-            if (Input.GetButton("Jump"))
+        if (_characterController.isGrounded)
             {
-                _moveDirection.y = _jumpSpeed;
+                Vector3 desiredMove = transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal");
+                _moveDirection = desiredMove * _speed;
+
+                if (Input.GetButton("Jump"))
+                {
+                    _moveDirection.y = _jumpSpeed;
+                }
             }
-        }
 
         _moveDirection.y -= _gravity * Time.deltaTime;
 
@@ -87,7 +78,7 @@ public sealed class PlayerController : NetworkBehaviour
         _characterTargetRotate *= Quaternion.Euler(0f, yRot, 0f);
         _cameraTargetRotate *= Quaternion.Euler(-xRot, 0f, 0f);
 
-       _cameraTargetRotate = ClampRotationAroundXAxis(_cameraTargetRotate);
+        _cameraTargetRotate = ClampRotationAroundXAxis(_cameraTargetRotate);
 
         character.localRotation = _characterTargetRotate;
         camera.localRotation = _cameraTargetRotate;
@@ -107,6 +98,28 @@ public sealed class PlayerController : NetworkBehaviour
         q.x = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleX);
 
         return q;
+    }
+
+    private void CommonInitialization()
+    {
+        _characterController = gameObject.GetComponent<CharacterController>();
+        _camera = gameObject.GetComponentInChildren<Camera>();
+    }
+
+    private void LocalInitialization()
+    {
+        _characterTargetRotate = _camera.transform.localRotation;
+        _cameraTargetRotate = _camera.transform.localRotation;
+        NetworkServices netServices = gameObject.GetComponent<NetworkServices>();
+
+        _features = new IPlayerFeature[1];
+        _features[0] = new FiringFeature(_objToSpawn, netServices);
+    }
+
+    private void ServerInitialization()
+    {
+        Destroy(_camera);
+        Destroy(gameObject.GetComponent<AudioListener>());
     }
 
     #endregion
