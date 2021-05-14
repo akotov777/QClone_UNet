@@ -3,15 +3,22 @@ using UnityEngine;
 
 
 public class NetworkServices : NetworkBehaviour
-{	
-	#region Methods
-	
-	[Command]
-	public void CmdSpawn(GameObject obj, Vector3 position, Quaternion rotation)
+{
+    #region Fields
+
+    public SpawnerPool Pools;
+
+    #endregion
+
+
+    #region Methods
+
+    [Command]
+    public void CmdSpawn(NetworkHash128 assetId, Vector3 position, Quaternion rotation)
     {
-		GameObject go = Instantiate(obj, position, rotation);
-		NetworkServer.Spawn(go);
+        GameObject go = Pools.GetFromPool(position, assetId);
+        NetworkServer.Spawn(go, assetId);
     }
-	
-	#endregion
+
+    #endregion
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using System;
 
 
 public sealed class PlayerController : NetworkBehaviour
@@ -7,6 +8,7 @@ public sealed class PlayerController : NetworkBehaviour
     #region Fields
 
     private CharacterController _characterController;
+    private SpawnerPool _pools;
     private IPlayerFeature[] _features;
 
     [SerializeField] private GameObject _objToSpawn;
@@ -34,7 +36,7 @@ public sealed class PlayerController : NetworkBehaviour
         if (isLocalPlayer)
             LocalInitialization();
         if (!isLocalPlayer)
-            ServerInitialization();
+            OtherClientsInitialization();
     }
 
     private void Update()
@@ -48,15 +50,15 @@ public sealed class PlayerController : NetworkBehaviour
 
 
         if (_characterController.isGrounded)
-            {
-                Vector3 desiredMove = transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal");
-                _moveDirection = desiredMove * _speed;
+        {
+            Vector3 desiredMove = transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal");
+            _moveDirection = desiredMove * _speed;
 
-                if (Input.GetButton("Jump"))
-                {
-                    _moveDirection.y = _jumpSpeed;
-                }
+            if (Input.GetButton("Jump"))
+            {
+                _moveDirection.y = _jumpSpeed;
             }
+        }
 
         _moveDirection.y -= _gravity * Time.deltaTime;
 
@@ -104,22 +106,26 @@ public sealed class PlayerController : NetworkBehaviour
     {
         _characterController = gameObject.GetComponent<CharacterController>();
         _camera = gameObject.GetComponentInChildren<Camera>();
+
+        _features = new IPlayerFeature[1];
+        NetworkServices netServices = gameObject.GetComponent<NetworkServices>();
+        _pools = FindObjectOfType<SpawnerPool>();
+
+        _features[0] = new FiringFeature(_objToSpawn, transform, netServices, _pools);
+
+        netServices.Pools = _pools;
     }
 
     private void LocalInitialization()
     {
         _characterTargetRotate = _camera.transform.localRotation;
         _cameraTargetRotate = _camera.transform.localRotation;
-        NetworkServices netServices = gameObject.GetComponent<NetworkServices>();
-
-        _features = new IPlayerFeature[1];
-        _features[0] = new FiringFeature(_objToSpawn, netServices);
     }
 
-    private void ServerInitialization()
+    private void OtherClientsInitialization()
     {
-        Destroy(_camera);
-        Destroy(gameObject.GetComponent<AudioListener>());
+        _camera.enabled = false;
+        gameObject.GetComponentInChildren<AudioListener>().enabled = false;
     }
 
     #endregion
