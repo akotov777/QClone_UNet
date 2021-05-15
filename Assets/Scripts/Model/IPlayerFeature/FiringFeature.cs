@@ -7,23 +7,23 @@ public class FiringFeature : IPlayerFeature
     #region Fields
 
     private Transform _startPosition;
-    private GameObject _obj;
+    private Transform _direction;
     private SpawnerPool _pool;
+    private GameObject _projectile;
     private NetworkServices _netServices;
-    private NetworkHash128 _assId;
 
     #endregion
 
 
     #region ClassLifeCycles
 
-    public FiringFeature(GameObject obj, Transform startPosition, NetworkServices spawnService, SpawnerPool pool)
+    public FiringFeature(GameObject projectile, Transform startPositionTransform, Transform directionTransform, SpawnerPool pool, NetworkServices netServices)
     {
-        _obj = obj;
-        _netServices = spawnService;
-        _startPosition = startPosition;
+        _projectile = projectile;
+        _netServices = netServices;
+        _startPosition = startPositionTransform;
+        _direction = directionTransform;
         _pool = pool;
-        _assId = _obj.GetComponent<NetworkIdentity>().assetId;
     }
 
     #endregion
@@ -31,11 +31,22 @@ public class FiringFeature : IPlayerFeature
 
     #region Methods
 
+    private void Fire(Vector3 direction, Vector3 position)
+    {
+        ///_netServices.CmdSpawnWithSetUp(_projectile, new SetUpSettings(position, direction));
+        _netServices.CmdSpawn(_projectile, position);
+    }
+
+    #endregion
+
+
+    #region IPLayerFeature
+
     public void ExecuteFeature()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            _netServices.CmdSpawn(_assId, _startPosition.position, Quaternion.identity);
+            Fire(_direction.rotation.eulerAngles, _startPosition.position);
         }
     }
 

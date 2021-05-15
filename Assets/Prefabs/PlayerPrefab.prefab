@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2582750663529887463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5776018776177170828}
+  m_Layer: 0
+  m_Name: ProjectileSpawnPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5776018776177170828
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2582750663529887463}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.161, z: 0.41499996}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6664323788851546391}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6548412120178455041
 GameObject:
   m_ObjectHideFlags: 0
@@ -27,7 +57,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6548412120178455041}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.068, z: 0.42}
+  m_LocalPosition: {x: 0, y: 0.294, z: 0.294}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 8119195058418368757}
@@ -218,6 +248,7 @@ Transform:
   - {fileID: 8119195058418368757}
   - {fileID: 6664323789489910735}
   - {fileID: 6664323788006844725}
+  - {fileID: 5776018776177170828}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -288,7 +319,7 @@ MonoBehaviour:
   m_SendInterval: 0.033333335
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
-  m_SyncSpin: 1
+  m_SyncSpin: 0
   m_MovementTheshold: 0.001
   m_VelocityThreshold: 0.0001
   m_SnapThreshold: 5
@@ -306,8 +337,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e50013e1b858ac4094ee6e9a9431ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _objToSpawn: {fileID: 7018094096498400969, guid: 1db40c5bdc44a4e4fb7c77c9e0412eea,
+  _objToSpawn: {fileID: 7018094096498400969, guid: ed5bee79623214140b8f74dd61bf2c2b,
     type: 3}
+  _positionToSpawn: {fileID: 5776018776177170828}
   _speed: 6
   _jumpSpeed: 8
   _gravity: 20
@@ -327,7 +359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 794d127ad54721d4a9e6b0bb59c2309b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pools: {fileID: 0}
+  Pool: {fileID: 0}
 --- !u!114 &801381046148749368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,7 +378,7 @@ MonoBehaviour:
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_MovementThreshold: 0.001
-  m_InterpolateRotation: 0.5
+  m_InterpolateRotation: 1
   m_InterpolateMovement: 0.5
 --- !u!1 &6664323789489910732
 GameObject:

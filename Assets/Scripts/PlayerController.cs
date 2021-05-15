@@ -8,10 +8,11 @@ public sealed class PlayerController : NetworkBehaviour
     #region Fields
 
     private CharacterController _characterController;
-    private SpawnerPool _pools;
+    private SpawnerPool _pool;
     private IPlayerFeature[] _features;
 
     [SerializeField] private GameObject _objToSpawn;
+    [SerializeField] private Transform _positionToSpawn;
     [SerializeField] private float _speed = 6.0f;
     [SerializeField] private float _jumpSpeed = 8.0f;
     [SerializeField] private float _gravity = 20.0f;
@@ -65,6 +66,18 @@ public sealed class PlayerController : NetworkBehaviour
         _characterController.Move(_moveDirection * Time.deltaTime);
 
         LookRotation(_characterController.transform, _camera.transform);
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (_objToSpawn.HasComponent<IPoolable>())
+            {
+                Debug.Log("True");
+            }
+            else
+            {
+                Debug.Log("False");
+            }
+        }
     }
 
     #endregion
@@ -109,17 +122,18 @@ public sealed class PlayerController : NetworkBehaviour
 
         _features = new IPlayerFeature[1];
         NetworkServices netServices = gameObject.GetComponent<NetworkServices>();
-        _pools = FindObjectOfType<SpawnerPool>();
+        _pool = FindObjectOfType<SpawnerPool>();
 
-        _features[0] = new FiringFeature(_objToSpawn, transform, netServices, _pools);
+        _features[0] = new FiringFeature(_objToSpawn, _positionToSpawn, _camera.transform, _pool, netServices);
 
-        netServices.Pools = _pools;
+        netServices.Pool = _pool;
     }
 
     private void LocalInitialization()
     {
         _characterTargetRotate = _camera.transform.localRotation;
         _cameraTargetRotate = _camera.transform.localRotation;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void OtherClientsInitialization()

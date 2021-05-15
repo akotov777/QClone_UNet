@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 using System.Collections.Generic;
 
 
-public class SpawnerPool : NetworkBehaviour
+public sealed class SpawnerPool : NetworkBehaviour
 {
 	#region Fields
 
@@ -22,16 +22,25 @@ public class SpawnerPool : NetworkBehaviour
 
 	void Start()
     {
+		List<GameObject> gameObjectsToPool = new List<GameObject>();
         for (int i = 0; i < _prefabs.Prefabs.Count; i++)
         {
-			var assetId = _prefabs.Prefabs[i].GetComponent<NetworkIdentity>().assetId;
+            if (_prefabs.Prefabs[i].HasComponent<IPoolable>())
+            {
+				gameObjectsToPool.Add(_prefabs.Prefabs[i]);
+            }
+        }
+
+        for (int i = 0; i < gameObjectsToPool.Count; i++)
+        {
+			var assetId = gameObjectsToPool[i].GetComponent<NetworkIdentity>().assetId;
 			_pools.Add(assetId, new List<GameObject>());
 
             for (int j = 0; j < _objectsInitialCount; j++)
             {
 				_pools[assetId].Add(
-					Instantiate(_prefabs.Prefabs[i], _objectsInitialPosition, Quaternion.identity));
-				_pools[assetId][j].SetActive(false);
+					Instantiate(gameObjectsToPool[i], _objectsInitialPosition, Quaternion.identity));
+				_pools[assetId][j].GetComponent<IPoolable>().ReturnToPool();
 			}
 
 			ClientScene.RegisterSpawnHandler(assetId, SpawnObject, UnSpawnObject);
@@ -47,10 +56,11 @@ public class SpawnerPool : NetworkBehaviour
 	{
 		foreach (var obj in _pools[assetId])
 		{
-			if (!obj.activeInHierarchy)
+			var poolable = obj.GetComponent<IPoolable>();
+			if (poolable.IsInPool)
 			{
 				obj.transform.position = position;
-				obj.SetActive(true);
+				poolable.GetFromPool();
 				return obj;
 			}
 		}
@@ -60,11 +70,17 @@ public class SpawnerPool : NetworkBehaviour
 		{
 			_pools[assetId].Add(
 				Instantiate(_pools[assetId][0], _objectsInitialPosition, Quaternion.identity));
-			_pools[assetId][j].SetActive(false);
+			_pools[assetId][j].GetComponent<IPoolable>().ReturnToPool();
 		}
 
 		return GetFromPool(position, assetId);
 	}
+
+	public GameObject GetFromPool(Vector3 position, GameObject prefab)
+    {
+		return GetFromPool(position, prefab.GetComponent<NetworkIdentity>().assetId);
+    }
+
 
 	public GameObject SpawnObject(Vector3 position, NetworkHash128 assetId)
 	{
