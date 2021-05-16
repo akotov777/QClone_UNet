@@ -15,34 +15,11 @@ public class BasicProjectile : NetworkBehaviour, IPoolable, ISpawnSetUpable
     #endregion
 
 
-    #region Properties
-
-
-
-    #endregion
-
-
     #region UnityMethods
-
-    void Start()
-    {
-
-    }
-
 
     void Update()
     {
         transform.position += _direction * _speed * Time.deltaTime;
-    }
-
-    private void OnEnable()
-    {
-        _direction.Normalize();
-    }
-
-    private void OnDisable()
-    {
-        ReturnToPool();
     }
 
     #endregion
@@ -54,22 +31,24 @@ public class BasicProjectile : NetworkBehaviour, IPoolable, ISpawnSetUpable
     {
         _direction = direction;
     }
-    
+
     #endregion
 
 
     #region IPoolable
 
-    public bool IsInPool { get => _isInPool;}
+    public bool IsInPool { get => _isInPool; }
 
     public GameObject GetFromPool()
     {
+        gameObject.SetActive(true);
         _isInPool = false;
         return gameObject;
     }
 
     public void ReturnToPool()
     {
+        _direction = Vector3.zero;
         gameObject.SetActive(false);
         _isInPool = true;
     }
@@ -81,7 +60,7 @@ public class BasicProjectile : NetworkBehaviour, IPoolable, ISpawnSetUpable
 
     public void SpawnSetUp(SetUpSettings settings)
     {
-        SetDirection(settings.direction);
+        SetDirection(settings.direction.normalized);
         gameObject.SetActive(true);
     }
 

@@ -33,8 +33,7 @@ public class FiringFeature : IPlayerFeature
 
     private void Fire(Vector3 direction, Vector3 position)
     {
-        ///_netServices.CmdSpawnWithSetUp(_projectile, new SetUpSettings(position, direction));
-        _netServices.CmdSpawn(_projectile, position);
+        _netServices.SpawnWithSetUp(_projectile, new SetUpSettings(position, direction));
     }
 
     #endregion
@@ -46,7 +45,7 @@ public class FiringFeature : IPlayerFeature
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            Fire(_direction.rotation.eulerAngles, _startPosition.position);
+            Fire(_direction.rotation * Vector3.forward, _startPosition.position);
         }
     }
 
