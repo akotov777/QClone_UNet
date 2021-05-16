@@ -57,13 +57,6 @@ public sealed class NetworkServices : NetworkBehaviour
     }
 
     [Command]
-    private void CmdSpawnFromPool(GameObject prefab, Vector3 position)
-    {
-        GameObject go = Pool.GetFromPool(position, prefab);
-        NetworkServer.Spawn(go);
-    }
-
-    [Command]
     private void CmdSpawn(NetworkHash128 hash, Vector3 position)
     {
         var chekingGO = Convert(hash);
@@ -77,6 +70,13 @@ public sealed class NetworkServices : NetworkBehaviour
             GameObject go = Instantiate(chekingGO, position, Quaternion.identity);
             NetworkServer.Spawn(go);
         }
+    }
+
+    [Command]
+    private void CmdSpawnFromPool(GameObject prefab, Vector3 position)
+    {
+        GameObject go = Pool.GetFromPool(position, prefab);
+        NetworkServer.Spawn(go);
     }
 
     [Command]

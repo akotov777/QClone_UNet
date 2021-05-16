@@ -1,5 +1,4 @@
-﻿using UnityEngine.Networking;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public class FiringFeature : IPlayerFeature
@@ -8,7 +7,6 @@ public class FiringFeature : IPlayerFeature
 
     private Transform _startPosition;
     private Transform _direction;
-    private SpawnerPool _pool;
     private GameObject _projectile;
     private NetworkServices _netServices;
 
@@ -17,13 +15,12 @@ public class FiringFeature : IPlayerFeature
 
     #region ClassLifeCycles
 
-    public FiringFeature(GameObject projectile, Transform startPositionTransform, Transform directionTransform, SpawnerPool pool, NetworkServices netServices)
+    public FiringFeature(GameObject projectile, Transform startPositionTransform, Transform directionTransform, NetworkServices netServices)
     {
         _projectile = projectile;
         _netServices = netServices;
         _startPosition = startPositionTransform;
         _direction = directionTransform;
-        _pool = pool;
     }
 
     #endregion

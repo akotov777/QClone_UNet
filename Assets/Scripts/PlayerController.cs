@@ -124,7 +124,7 @@ public sealed class PlayerController : NetworkBehaviour
         NetworkServices netServices = gameObject.GetComponent<NetworkServices>();
         _pool = FindObjectOfType<SpawnerPool>();
 
-        _features[0] = new FiringFeature(_objToSpawn, _positionToSpawn, _camera.transform, _pool, netServices);
+        _features[0] = new FiringFeature(_objToSpawn, _positionToSpawn, _camera.transform, netServices);
 
         netServices.Pool = _pool;
     }
