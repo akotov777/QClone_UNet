@@ -8,7 +8,7 @@ public sealed class NetworkServices : NetworkBehaviour
 {
     #region Fields
 
-    public SpawnerPool Pool;
+    private SpawnerPool _pool;
     private static RegisteredPrefabs _prefabs;
     private static Dictionary<NetworkHash128, GameObject> _table;
 
@@ -19,9 +19,14 @@ public sealed class NetworkServices : NetworkBehaviour
 
     private void Start()
     {
-        _prefabs = Resources.Load<RegisteredPrefabs>("Data/RegisteredPrefabs");
+        _prefabs = FindObjectOfType<CustomNetworkManager>().RegisteredPrefabs;
         _table = new Dictionary<NetworkHash128, GameObject>();
+        _pool = FindObjectOfType<SpawnerPool>();
 
+        if (_pool == null)
+        {
+            throw new Exception("There is no object pool on the scene");
+        }
         for (int i = 0; i < _prefabs.Prefabs.Count; i++)
         {
             var id = _prefabs.Prefabs[i].GetComponent<NetworkIdentity>().assetId;
@@ -75,7 +80,7 @@ public sealed class NetworkServices : NetworkBehaviour
     [Command]
     private void CmdSpawnFromPool(GameObject prefab, Vector3 position)
     {
-        GameObject go = Pool.GetFromPool(position, prefab);
+        GameObject go = _pool.GetFromPool(position, prefab);
         NetworkServer.Spawn(go);
     }
 
@@ -91,7 +96,7 @@ public sealed class NetworkServices : NetworkBehaviour
         GameObject goToSpawn;
         if (chekingInstance.HasComponent<IPoolable>())
         {
-            goToSpawn = Pool.GetFromPool(settings.position, chekingInstance);
+            goToSpawn = _pool.GetFromPool(settings.position, chekingInstance);
         }
         else
         {

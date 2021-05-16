@@ -9,7 +9,7 @@ public sealed class SpawnerPool : NetworkBehaviour
 
     [SerializeField, Range(1, 10)] private int _objectsInitialCount;
     [SerializeField] private Vector3 _objectsInitialPosition;
-    [SerializeField] private RegisteredPrefabs _prefabs;
+    private RegisteredPrefabs _prefabs;
     private Dictionary<NetworkHash128, List<GameObject>> _pools = new Dictionary<NetworkHash128, List<GameObject>>();
 
     public delegate GameObject SpawnDelegate(Vector3 position, NetworkHash128 assetId);
@@ -22,6 +22,7 @@ public sealed class SpawnerPool : NetworkBehaviour
 
     void Start()
     {
+        _prefabs = FindObjectOfType<CustomNetworkManager>().RegisteredPrefabs;
         List<GameObject> gameObjectsToPool = new List<GameObject>();
         for (int i = 0; i < _prefabs.Prefabs.Count; i++)
         {

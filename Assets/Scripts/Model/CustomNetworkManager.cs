@@ -11,6 +11,13 @@ public class CustomNetworkManager : NetworkManager
     #endregion
 
 
+    #region Properties
+
+    public RegisteredPrefabs RegisteredPrefabs { get { return _prefabsToRegister; } }
+
+    #endregion
+
+
     #region UnityMethods
 
     private void Start()
