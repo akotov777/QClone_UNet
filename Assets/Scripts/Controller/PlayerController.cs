@@ -3,12 +3,13 @@ using UnityEngine.Networking;
 using System;
 
 
-public sealed class PlayerController : NetworkBehaviour
+public sealed class PlayerController
 {
     #region Fields
 
-    private SpawnerPool _pool;
+    private Player _player;
     private IPlayerFeature[] _features;
+    private PlayerStateMachine _playerStateMachine;
 
     [SerializeField] private GameObject _objToSpawn;
     [SerializeField] private Transform _positionToSpawn;
@@ -42,13 +43,15 @@ public sealed class PlayerController : NetworkBehaviour
 
     #region Methods
 
-
+    internal void Execute()
+    {
+        throw new NotImplementedException();
+    }
 
     private void CommonInitialization()
     {
         _features = new IPlayerFeature[2];
         NetworkServices netServices = gameObject.GetComponent<NetworkServices>();
-        _pool = FindObjectOfType<SpawnerPool>();
 
         _features[0] = new FiringFeature(_objToSpawn,
                                          _positionToSpawn,
