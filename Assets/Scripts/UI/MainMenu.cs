@@ -33,13 +33,14 @@ public class MainMenu : BaseUI
 
     #region UnityMethods
 
-    private void Start()
+    private void Awake()
     {
         _connect = Connect;
         _exit = Exit;
         _host = Host;
         _button_Connect.onClick.AddListener(_connect);
         _button_Exit.onClick.AddListener(_exit);
+        _button_Host.onClick.AddListener(_host);
     }
 
     #endregion
@@ -61,8 +62,8 @@ public class MainMenu : BaseUI
     }
     private void Host()
     {
-        NetworkServer.Listen(7777);
-        _client = ClientScene.ConnectLocalServer();
+        _client = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkManager>().StartHost();
+        ToggleOff();
     }
 
     #endregion
