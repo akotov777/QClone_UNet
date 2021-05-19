@@ -1,12 +1,13 @@
 ﻿using System;
-using UnityEngine;
+using System.Collections.Generic;
 
 
 public abstract class PlayerState
 {
 	#region Fields
 
-	private PlayerStateMachine _stateMachine;
+	internal PlayerStateMachine _stateMachine;
+	internal Dictionary<Type, IPlayerFeature> _featureTable;
 
 	#endregion
 

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public class FiringFeature : IPlayerFeature
+public class FiringFeature : BasePlayerFeature
 {
     #region Fields
 
@@ -38,8 +38,11 @@ public class FiringFeature : IPlayerFeature
 
     #region IPLayerFeature
 
-    public void ExecuteFeature()
+    public override void ExecuteFeature()
     {
+        if (!IsActive)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             Fire(_direction.rotation * Vector3.forward, _startPosition.position);

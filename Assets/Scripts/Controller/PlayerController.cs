@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System;
+using System.Collections.Generic;
 
 
 public sealed class PlayerController
@@ -10,32 +11,23 @@ public sealed class PlayerController
     private Player _player;
     private IPlayerFeature[] _features;
     private PlayerStateMachine _playerStateMachine;
-
-    [SerializeField] private GameObject _objToSpawn;
-    [SerializeField] private Transform _positionToSpawn;
+    private NetworkServices _netServices;
 
     #endregion
 
 
-    #region UnityMethods
+    #region ClassLifeCycles
 
-    private void Start()
+    public PlayerController()
     {
-        CommonInitialization();
-        if (isLocalPlayer)
-            LocalInitialization();
-        if (!isLocalPlayer)
-            OtherClientsInitialization();
-    }
+        _player = FindLocalPlayerOnScene();
+        _netServices = _player.NetworkServices;
 
-    private void Update()
-    {
-        if (!isLocalPlayer) return;
+        Dictionary<Type, IPlayerFeature> featureTable = PopulateFeatureTable();
 
-        for (int i = 0; i < _features.Length; i++)
-        {
-            _features[i].ExecuteFeature();
-        }
+        featureTable.Values.CopyTo(_features, 0);
+
+        _playerStateMachine = new PlayerStateMachine(featureTable);
     }
 
     #endregion
@@ -43,32 +35,40 @@ public sealed class PlayerController
 
     #region Methods
 
-    internal void Execute()
+    public void Execute()
     {
-        throw new NotImplementedException();
+        _playerStateMachine.Execute();
+
+        for (int i = 0; i < _features.Length; i++)
+        {
+            _features[i].ExecuteFeature();
+        }
     }
 
-    private void CommonInitialization()
+    private Player FindLocalPlayerOnScene()
     {
-        _features = new IPlayerFeature[2];
-        NetworkServices netServices = gameObject.GetComponent<NetworkServices>();
-
-        _features[0] = new FiringFeature(_objToSpawn,
-                                         _positionToSpawn,
-                                         GetComponentInChildren<Camera>().transform,
-                                         netServices);
-        _features[1] = new MovementFeature(GetComponentInChildren<Camera>(),
-                                           GetComponentInChildren<CharacterController>());
+        var players = GameObject.FindObjectsOfType<Player>();
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (players[i].isLocalPlayer)
+            {
+                return players[i];
+            }
+        }
+        throw new Exception("There is no local player on scene");
     }
 
-    private void LocalInitialization()
+    private Dictionary<Type, IPlayerFeature> PopulateFeatureTable()
     {
-    }
+        Dictionary<Type, IPlayerFeature> featureTable = new Dictionary<Type, IPlayerFeature>();
 
-    private void OtherClientsInitialization()
-    {
-        gameObject.GetComponentInChildren<Camera>().enabled = false;
-        gameObject.GetComponentInChildren<AudioListener>().enabled = false;
+        FiringFeature firing = new FiringFeature(_player.Projectile, _player.PositionToSpawnProjectile, _player.Camera.transform, _netServices);
+        MovementFeature movement = new MovementFeature(_player.Camera, _player.CharacterController);
+
+        featureTable.Add(typeof(FiringFeature), firing);
+        featureTable.Add(typeof(MovementFeature), movement);
+
+        return featureTable;
     }
 
     #endregion

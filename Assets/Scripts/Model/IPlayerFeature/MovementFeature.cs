@@ -1,8 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 
-public class MovementFeature : IPlayerFeature
+public class MovementFeature : BasePlayerFeature
 {
     #region Fields
 
@@ -76,8 +75,11 @@ public class MovementFeature : IPlayerFeature
 
     #region IPlayerFeature
 
-    public void ExecuteFeature()
+    public override void ExecuteFeature()
     {
+        if (!IsActive)
+            return;
+
         if (_characterController.isGrounded)
         {
             Vector3 desiredMove = _characterController.transform.forward * Input.GetAxis("Vertical") + _characterController.transform.right * Input.GetAxis("Horizontal");

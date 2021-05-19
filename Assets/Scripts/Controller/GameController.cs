@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
 
 public class GameController : MonoBehaviour
@@ -7,7 +8,6 @@ public class GameController : MonoBehaviour
 
 	[SerializeField] private PlayerController _playerController;
 	[SerializeField] private UIController _uIController;
-	private NetworkServices _netServices;
 	
 	#endregion
 	
@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
 	
 	void Start()
     {
-        
+		_uIController = Instantiate(_uIController);
     }
 
     void Update()
