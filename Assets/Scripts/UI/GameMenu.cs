@@ -27,10 +27,11 @@ public class GameMenu : BaseUI
 
     #region UnityMethods
 
-    private void Start()
+    internal override void Start()
     {
-        _exit = Exit;
-        _disconnect = Disconnect;
+        base.Start();
+        _exit = _gameController.QuitApplication;
+        _disconnect = _gameController.Disconnect;
         _button_Disconnect.onClick.AddListener(_disconnect);
         _button_Exit.onClick.AddListener(_exit);
     }
@@ -40,17 +41,7 @@ public class GameMenu : BaseUI
 
     #region Methods
 
-    private void Exit()
-    {
-        Application.Quit(0);
-    }
 
-    private void Disconnect()
-    {
-        FindObjectOfType<NetworkManager>()
-            .client
-            .Disconnect();
-    }
 
     #endregion
 }

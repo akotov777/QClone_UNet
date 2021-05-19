@@ -6,7 +6,7 @@ public abstract class BaseUI : MonoBehaviour
 {
     #region Fields
 
-
+    internal GameController _gameController;
 
     #endregion
 
@@ -20,7 +20,11 @@ public abstract class BaseUI : MonoBehaviour
 
     #region UnityMethods
 
-
+    internal virtual void Start()
+    {
+        _gameController = GetComponent<GameController>();
+        ToggleOff();
+    }
 
     #endregion
 
