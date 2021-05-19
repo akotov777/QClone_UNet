@@ -82,7 +82,9 @@ public class MovementFeature : BasePlayerFeature
 
         if (_characterController.isGrounded)
         {
-            Vector3 desiredMove = _characterController.transform.forward * Input.GetAxis("Vertical") + _characterController.transform.right * Input.GetAxis("Horizontal");
+            Vector3 desiredMove = _characterController.transform.forward * Input.GetAxis("Vertical") 
+                                  + _characterController.transform.right * Input.GetAxis("Horizontal");
+
             _moveDirection = desiredMove * _settings.Speed;
 
             if (Input.GetButton("Jump"))

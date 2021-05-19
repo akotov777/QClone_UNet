@@ -23,15 +23,20 @@ public class Player : NetworkBehaviour
 	public GameObject Projectile { get { return _objToSpawn; } }
 	public Transform PositionToSpawnProjectile { get { return _positionToSpawn; } }
 	public CharacterController CharacterController { get { return _characterController; } }
-	
-	#endregion
-	
-	
-	#region UnityMethods
-	
+
+    #endregion
+
+
+    #region UnityMethods
+
+    private void Awake()
+    {
+		Debug.Log("Awake");
+		CommonInitialization();
+	}
+
 	void Start()
     {
-		CommonInitialization();
 		if (isLocalPlayer)
 			LocalInitialization();
 		if (!isLocalPlayer)
@@ -56,6 +61,7 @@ public class Player : NetworkBehaviour
 
 	private void LocalInitialization()
 	{
+		FindObjectOfType<GameController>().SetUpPlayerController();
 	}
 
 	private void OtherClientsInitialization()

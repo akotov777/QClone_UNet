@@ -8,8 +8,9 @@ public sealed class PlayerController
 {
     #region Fields
 
+    private bool _hasPlayer;
     private Player _player;
-    private IPlayerFeature[] _features;
+    private BasePlayerFeature[] _features;
     private PlayerStateMachine _playerStateMachine;
     private NetworkServices _netServices;
 
@@ -21,9 +22,11 @@ public sealed class PlayerController
     public PlayerController()
     {
         _player = FindLocalPlayerOnScene();
+        _hasPlayer = true;
+
         _netServices = _player.NetworkServices;
 
-        Dictionary<Type, IPlayerFeature> featureTable = PopulateFeatureTable();
+        Dictionary<Type, BasePlayerFeature> featureTable = PopulateFeatureTable();
 
         featureTable.Values.CopyTo(_features, 0);
 
@@ -37,6 +40,9 @@ public sealed class PlayerController
 
     public void Execute()
     {
+        if (!_hasPlayer)
+            return;
+
         _playerStateMachine.Execute();
 
         for (int i = 0; i < _features.Length; i++)
@@ -58,9 +64,11 @@ public sealed class PlayerController
         throw new Exception("There is no local player on scene");
     }
 
-    private Dictionary<Type, IPlayerFeature> PopulateFeatureTable()
+    private Dictionary<Type, BasePlayerFeature> PopulateFeatureTable()
     {
-        Dictionary<Type, IPlayerFeature> featureTable = new Dictionary<Type, IPlayerFeature>();
+        _features = new BasePlayerFeature[2];
+
+        Dictionary<Type, BasePlayerFeature> featureTable = new Dictionary<Type, BasePlayerFeature>();
 
         FiringFeature firing = new FiringFeature(_player.Projectile, _player.PositionToSpawnProjectile, _player.Camera.transform, _netServices);
         MovementFeature movement = new MovementFeature(_player.Camera, _player.CharacterController);

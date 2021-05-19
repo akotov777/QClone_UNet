@@ -2,7 +2,7 @@
 {
     #region Fields
 
-    internal bool _isActive;
+    internal bool _isActive = true;
 
     #endregion
 

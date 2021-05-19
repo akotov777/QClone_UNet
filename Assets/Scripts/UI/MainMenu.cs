@@ -53,7 +53,7 @@ public class MainMenu : BaseUI
 
     private void ConnectWrapper()
     {
-        _gameController.Connect(_field_IP.text, int.Parse(_field_IP.text));
+        _gameController.Connect(_field_IP.text, int.Parse(_field_Port.text));
     }
 
     private void QuitWrapper()

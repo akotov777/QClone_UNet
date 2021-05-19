@@ -42,7 +42,7 @@ public class GameController : MonoBehaviour
 	
 	private void Execute()
     {
-		//_playerController.Execute();
+		_playerController?.Execute(); // ?. rude
     }
 
 	public void QuitApplication()
@@ -56,13 +56,19 @@ public class GameController : MonoBehaviour
 	}
 	public void Connect(string ip, int port)
 	{
-		_client = new NetworkClient();
-		_client.Connect(ip, port);
+		_netManager.networkAddress = ip;
+		_netManager.networkPort = port;
+		_client = _netManager.StartClient();
 	}
 
 	public void Host()
 	{
 		_client = _netManager.StartHost();
+	}
+
+	public void SetUpPlayerController()
+    {
+		_playerController = new PlayerController();
 	}
 
 	#endregion

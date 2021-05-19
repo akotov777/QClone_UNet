@@ -7,7 +7,7 @@ public class PlayerStateMachine
 	#region Fields
 
 	private PlayerState _state;
-	private Dictionary<Type, IPlayerFeature> _featuresTable;
+	private Dictionary<Type, BasePlayerFeature> _featuresTable;
 	
 	#endregion
 	
@@ -21,7 +21,7 @@ public class PlayerStateMachine
 	
 	#region ClassLifeCycles
 	
-	public PlayerStateMachine(Dictionary<Type, IPlayerFeature> featuresTable)
+	public PlayerStateMachine(Dictionary<Type, BasePlayerFeature> featuresTable)
     {
 		_featuresTable = featuresTable;
     }
@@ -33,7 +33,7 @@ public class PlayerStateMachine
 	
 	public void Execute()
     {
-		_state.Execute();
+		//_state.Execute();
     }
 
 	public void SetState(PlayerState state)
