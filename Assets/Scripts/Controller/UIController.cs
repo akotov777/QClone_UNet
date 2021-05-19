@@ -22,7 +22,7 @@ public class UIController : MonoBehaviour
 
 	void Start()
 	{
-		CloseGameMenu();
+
 	}
 
 	void Update()

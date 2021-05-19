@@ -38,8 +38,8 @@ public class MainMenu : BaseUI
 
         _connect = ConnectWrapper;
         _connect += ToggleOff;
-        _exit = _gameController.QuitApplication;
-        _host = _gameController.Host;
+        _exit = QuitWrapper;
+        _host = HostWrapper;
         _host += ToggleOff;
         _button_Connect.onClick.AddListener(_connect);
         _button_Exit.onClick.AddListener(_exit);
@@ -54,6 +54,16 @@ public class MainMenu : BaseUI
     private void ConnectWrapper()
     {
         _gameController.Connect(_field_IP.text, int.Parse(_field_IP.text));
+    }
+
+    private void QuitWrapper()
+    {
+        _gameController.QuitApplication();
+    }
+
+    private void HostWrapper()
+    {
+        _gameController.Host();
     }
 
     #endregion

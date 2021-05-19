@@ -22,7 +22,7 @@ public abstract class BaseUI : MonoBehaviour
 
     internal virtual void Start()
     {
-        _gameController = GetComponent<GameController>();
+        _gameController = FindObjectOfType<GameController>();
         ToggleOff();
     }
 

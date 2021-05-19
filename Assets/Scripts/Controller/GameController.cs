@@ -27,6 +27,7 @@ public class GameController : MonoBehaviour
 	void Start()
     {
 		_uIController = Instantiate(_uIController);
+		_netManager = FindObjectOfType<NetworkManager>();
     }
 
     void Update()
@@ -41,7 +42,7 @@ public class GameController : MonoBehaviour
 	
 	private void Execute()
     {
-		_playerController.Execute();
+		//_playerController.Execute();
     }
 
 	public void QuitApplication()
