@@ -7,6 +7,7 @@ public abstract class BaseUI : MonoBehaviour
     #region Fields
 
     internal GameController _gameController;
+    internal UIController _uIController;
 
     #endregion
 
@@ -23,7 +24,7 @@ public abstract class BaseUI : MonoBehaviour
     internal virtual void Start()
     {
         _gameController = FindObjectOfType<GameController>();
-        ToggleOff();
+        _uIController = FindObjectOfType<UIController>();
     }
 
     #endregion

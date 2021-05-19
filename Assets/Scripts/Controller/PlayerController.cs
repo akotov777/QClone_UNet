@@ -26,7 +26,7 @@ public sealed class PlayerController
 
         _netServices = _player.NetworkServices;
 
-        Dictionary<Type, BasePlayerFeature> featureTable = PopulateFeatureTable();
+        Dictionary<FeatureType, BasePlayerFeature> featureTable = PopulateFeatureTable();
 
         featureTable.Values.CopyTo(_features, 0);
 
@@ -64,17 +64,17 @@ public sealed class PlayerController
         throw new Exception("There is no local player on scene");
     }
 
-    private Dictionary<Type, BasePlayerFeature> PopulateFeatureTable()
+    private Dictionary<FeatureType, BasePlayerFeature> PopulateFeatureTable()
     {
         _features = new BasePlayerFeature[2];
 
-        Dictionary<Type, BasePlayerFeature> featureTable = new Dictionary<Type, BasePlayerFeature>();
+        Dictionary<FeatureType, BasePlayerFeature> featureTable = new Dictionary<FeatureType, BasePlayerFeature>();
 
         FiringFeature firing = new FiringFeature(_player.Projectile, _player.PositionToSpawnProjectile, _player.Camera.transform, _netServices);
         MovementFeature movement = new MovementFeature(_player.Camera, _player.CharacterController);
 
-        featureTable.Add(typeof(FiringFeature), firing);
-        featureTable.Add(typeof(MovementFeature), movement);
+        featureTable.Add(FeatureType.FiringFeature, firing);
+        featureTable.Add(FeatureType.MovementFeature, movement);
 
         return featureTable;
     }

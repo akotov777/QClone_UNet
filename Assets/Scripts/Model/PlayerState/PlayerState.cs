@@ -7,7 +7,7 @@ public abstract class PlayerState
 	#region Fields
 
 	internal PlayerStateMachine _stateMachine;
-	internal Dictionary<Type, IPlayerFeature> _featureTable;
+	internal Dictionary<FeatureType, BasePlayerFeature> _featureTable;
 
 	#endregion
 

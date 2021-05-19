@@ -29,14 +29,9 @@ public class Player : NetworkBehaviour
 
     #region UnityMethods
 
-    private void Awake()
-    {
-		Debug.Log("Awake");
-		CommonInitialization();
-	}
-
 	void Start()
     {
+		CommonInitialization();
 		if (isLocalPlayer)
 			LocalInitialization();
 		if (!isLocalPlayer)

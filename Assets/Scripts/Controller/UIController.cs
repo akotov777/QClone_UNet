@@ -22,7 +22,8 @@ public class UIController : MonoBehaviour
 
 	void Start()
 	{
-
+		ShowMainMenu();
+		CloseGameMenu();
 	}
 
 	void Update()
