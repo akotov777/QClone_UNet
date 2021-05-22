@@ -32,6 +32,26 @@ public class MovementFeature : BasePlayerFeature
 
     #region Methods
 
+    private float GetVerticalAxis()
+    {
+        if (!IsActive)
+            return 0.0f;
+        return Input.GetAxis("Vertical");
+    }
+
+    private float GetHorizontalAxis()
+    {
+        if (!IsActive)
+            return 0.0f;
+        return Input.GetAxis("Horizontal");
+    }
+
+    private bool IsJumpPressed()
+    {
+        if (!IsActive)
+            return false;
+        return Input.GetButton("Jump");
+    }
 
 
     #endregion
@@ -41,17 +61,14 @@ public class MovementFeature : BasePlayerFeature
 
     public override void ExecuteFeature()
     {
-        if (!IsActive)
-            return;
-
         if (_characterController.isGrounded)
         {
-            Vector3 desiredMove = _characterController.transform.forward * Input.GetAxis("Vertical") 
-                                  + _characterController.transform.right * Input.GetAxis("Horizontal");
+            Vector3 desiredMove = _characterController.transform.forward * GetVerticalAxis()
+                                  + _characterController.transform.right * GetHorizontalAxis();
 
             _moveDirection = desiredMove * _settings.Speed;
 
-            if (Input.GetButton("Jump"))
+            if (IsJumpPressed())
             {
                 _moveDirection.y = _settings.JumpSpeed;
             }
