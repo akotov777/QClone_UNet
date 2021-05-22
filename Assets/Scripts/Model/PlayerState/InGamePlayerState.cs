@@ -32,6 +32,7 @@ public class InGamePlayerState : PlayerState
         {
             _featureTable[FeatureType.FiringFeature].IsActive = false;
             _featureTable[FeatureType.MovementFeature].IsActive = false;
+            _featureTable[FeatureType.LookingFeature].IsActive = false;
             Cursor.lockState = CursorLockMode.None;
 
             _ui.ShowGameMenu();

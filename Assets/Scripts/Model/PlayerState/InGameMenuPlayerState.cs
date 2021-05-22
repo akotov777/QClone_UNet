@@ -32,6 +32,7 @@ public class InGameMenuPlayerState : PlayerState
         {
             _featureTable[FeatureType.FiringFeature].IsActive = true;
             _featureTable[FeatureType.MovementFeature].IsActive = true;
+            _featureTable[FeatureType.LookingFeature].IsActive = true;
             Cursor.lockState = CursorLockMode.Locked;
 
             _ui.CloseGameMenu();
