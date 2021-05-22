@@ -5,10 +5,10 @@ public class LookingFeature : BasePlayerFeature
 {
     #region Fields
 
-    private CharacterController _characterController;
+    private Transform _cameraRotationFollower;
     private Camera _camera;
     private PlayerMovementSettings _settings;
-    private Quaternion _characterTargetRotate;
+    private Quaternion _followerTargetRotate;
     private Quaternion _cameraTargetRotate;
 
     #endregion
@@ -23,13 +23,13 @@ public class LookingFeature : BasePlayerFeature
 
     #region ClassLifeCycles
 
-    public LookingFeature(Camera camera, CharacterController characterController)
+    public LookingFeature(Camera camera, Transform cameraRotationFollower)
     {
         _camera = camera;
-        _characterController = characterController;
+        _cameraRotationFollower = cameraRotationFollower;
         _settings = Resources.Load<PlayerMovementSettings>("Data/PlayerMovementSettings");
 
-        _characterTargetRotate = _camera.transform.localRotation;
+        _followerTargetRotate = _camera.transform.localRotation;
         _cameraTargetRotate = _camera.transform.localRotation;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -44,12 +44,12 @@ public class LookingFeature : BasePlayerFeature
         float yRot = Input.GetAxis("Mouse X") * _settings.XSensitivity;
         float xRot = Input.GetAxis("Mouse Y") * _settings.YSensitivity;
 
-        _characterTargetRotate *= Quaternion.Euler(0f, yRot, 0f);
+        _followerTargetRotate *= Quaternion.Euler(0f, yRot, 0f);
         _cameraTargetRotate *= Quaternion.Euler(-xRot, 0f, 0f);
 
         _cameraTargetRotate = ClampRotationAroundXAxis(_cameraTargetRotate);
 
-        cameraRotationFollower.localRotation = _characterTargetRotate;
+        cameraRotationFollower.localRotation = _followerTargetRotate;
         camera.localRotation = _cameraTargetRotate;
     }
 
@@ -79,7 +79,7 @@ public class LookingFeature : BasePlayerFeature
         if (!IsActive)
             return;
 
-        LookRotation(_characterController.transform, _camera.transform);
+        LookRotation(_camera.transform, _cameraRotationFollower);
     }
 
     #endregion
