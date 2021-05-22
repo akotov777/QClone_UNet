@@ -1,5 +1,6 @@
 ﻿public enum FeatureType
 {
     FiringFeature,
-    MovementFeature
+    MovementFeature,
+    LookingFeature
 }

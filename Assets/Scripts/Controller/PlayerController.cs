@@ -66,15 +66,17 @@ public sealed class PlayerController
 
     private Dictionary<FeatureType, BasePlayerFeature> PopulateFeatureTable()
     {
-        _features = new BasePlayerFeature[2];
+        _features = new BasePlayerFeature[3];
 
         Dictionary<FeatureType, BasePlayerFeature> featureTable = new Dictionary<FeatureType, BasePlayerFeature>();
 
         FiringFeature firing = new FiringFeature(_player.Projectile, _player.PositionToSpawnProjectile, _player.Camera.transform, _netServices);
-        MovementFeature movement = new MovementFeature(_player.Camera, _player.CharacterController);
+        MovementFeature movement = new MovementFeature(_player.CharacterController);
+        LookingFeature looking = new LookingFeature(_player.Camera, _player.CharacterController.transform);
 
         featureTable.Add(FeatureType.FiringFeature, firing);
         featureTable.Add(FeatureType.MovementFeature, movement);
+        featureTable.Add(FeatureType.LookingFeature, looking);
 
         return featureTable;
     }
