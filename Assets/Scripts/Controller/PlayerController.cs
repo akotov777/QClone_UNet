@@ -70,7 +70,10 @@ public sealed class PlayerController
 
         Dictionary<FeatureType, BasePlayerFeature> featureTable = new Dictionary<FeatureType, BasePlayerFeature>();
 
-        FiringFeature firing = new FiringFeature(_player.Projectile, _player.PositionToSpawnProjectile, _player.Camera.transform, _netServices);
+        FiringFeature firing = new FiringFeature(_player.Projectile,
+                                                 _player.PositionToSpawnProjectile,
+                                                 _player.Camera.transform,
+                                                 _netServices);
         MovementFeature movement = new MovementFeature(_player.CharacterController);
         LookingFeature looking = new LookingFeature(_player.Camera, _player.CharacterController.transform);
 
