@@ -485,6 +485,7 @@ MonoBehaviour:
   _objToSpawn: {fileID: 7018094096498400969, guid: ed5bee79623214140b8f74dd61bf2c2b,
     type: 3}
   _positionToSpawn: {fileID: 5776018776177170828}
+  _collider: {fileID: 6664323788851546389}
 --- !u!114 &114828352675018064
 MonoBehaviour:
   m_ObjectHideFlags: 0
