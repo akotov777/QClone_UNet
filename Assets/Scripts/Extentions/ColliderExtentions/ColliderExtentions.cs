@@ -27,7 +27,7 @@ public static class ColliderExtentions
         }
     }
 
-    public static void HandleCollision(this Collider collider)
+    public static void HandleCollision(this Collider collider, CollisionInfo info)
     {
         if (!_handlersTable.ContainsKey(collider))
         {
@@ -35,7 +35,7 @@ public static class ColliderExtentions
         }
         foreach (var handler in _handlersTable[collider])
         {
-            handler.HandleCollision();
+            handler.HandleCollision(info);
         }
     }
 

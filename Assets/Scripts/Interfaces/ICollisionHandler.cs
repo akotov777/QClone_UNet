@@ -3,5 +3,5 @@
 
 public interface ICollisionHandler
 {
-	void HandleCollision();
+	void HandleCollision(CollisionInfo info);
 }
