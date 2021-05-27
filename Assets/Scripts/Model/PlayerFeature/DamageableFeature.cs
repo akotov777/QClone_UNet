@@ -34,7 +34,7 @@
 
     public void HandleCollision(CollisionInfo info)
     {
-
+        DealDamage(info.IntDamage);
     }
 
     #endregion
