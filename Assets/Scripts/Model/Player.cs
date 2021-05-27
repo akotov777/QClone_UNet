@@ -11,6 +11,7 @@ public class Player : NetworkBehaviour
 
 	[SerializeField] private GameObject _objToSpawn;
 	[SerializeField] private Transform _positionToSpawn;
+	[SerializeField] private Collider _collider;
 	private CharacterController _characterController;
 
 	#endregion
@@ -22,6 +23,7 @@ public class Player : NetworkBehaviour
 	public NetworkServices NetworkServices { get { return _netServices; } }
 	public GameObject Projectile { get { return _objToSpawn; } }
 	public Transform PositionToSpawnProjectile { get { return _positionToSpawn; } }
+	public Collider Collider { get { return _collider; } }
 	public CharacterController CharacterController { get { return _characterController; } }
 
     #endregion
