@@ -1,4 +1,4 @@
-﻿public abstract class BasePlayerFeature : IPlayerFeature
+﻿public abstract class BasePlayerFeature
 {
     #region Fields
 
@@ -14,13 +14,6 @@
         get { return _isActive; }
         set { _isActive = value; }
     }
-
-    #endregion
-
-
-    #region Methods
-
-    public abstract void ExecuteFeature();
 
     #endregion
 }

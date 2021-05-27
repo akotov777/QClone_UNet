@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public class LookingFeature : BasePlayerFeature
+public class LookingFeature : ExecutablePlayerFeature
 {
     #region Fields
 

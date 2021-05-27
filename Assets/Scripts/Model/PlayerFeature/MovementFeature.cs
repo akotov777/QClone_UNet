@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public class MovementFeature : BasePlayerFeature
+public class MovementFeature : ExecutablePlayerFeature
 {
     #region Fields
 

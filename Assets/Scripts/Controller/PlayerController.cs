@@ -10,7 +10,7 @@ public sealed class PlayerController
 
     private bool _hasPlayer;
     private Player _player;
-    private BasePlayerFeature[] _features;
+    private ExecutablePlayerFeature[] _executableFeatures;
     private PlayerStateMachine _playerStateMachine;
     private NetworkServices _netServices;
 
@@ -28,8 +28,6 @@ public sealed class PlayerController
 
         Dictionary<FeatureType, BasePlayerFeature> featureTable = PopulateFeatureTable();
 
-        featureTable.Values.CopyTo(_features, 0);
-
         _playerStateMachine = new PlayerStateMachine(featureTable);
     }
 
@@ -45,9 +43,9 @@ public sealed class PlayerController
 
         _playerStateMachine.Execute();
 
-        for (int i = 0; i < _features.Length; i++)
+        for (int i = 0; i < _executableFeatures.Length; i++)
         {
-            _features[i].ExecuteFeature();
+            _executableFeatures[i].ExecuteFeature();
         }
     }
 
@@ -66,7 +64,7 @@ public sealed class PlayerController
 
     private Dictionary<FeatureType, BasePlayerFeature> PopulateFeatureTable()
     {
-        _features = new BasePlayerFeature[3];
+        _executableFeatures = new ExecutablePlayerFeature[3];
 
         Dictionary<FeatureType, BasePlayerFeature> featureTable = new Dictionary<FeatureType, BasePlayerFeature>();
 
@@ -80,6 +78,10 @@ public sealed class PlayerController
         featureTable.Add(FeatureType.FiringFeature, firing);
         featureTable.Add(FeatureType.MovementFeature, movement);
         featureTable.Add(FeatureType.LookingFeature, looking);
+
+        _executableFeatures[0] = firing;
+        _executableFeatures[1] = movement;
+        _executableFeatures[2] = looking;
 
         return featureTable;
     }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public class FiringFeature : BasePlayerFeature
+public class FiringFeature : ExecutablePlayerFeature
 {
     #region Fields
 
