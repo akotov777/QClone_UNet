@@ -33,11 +33,6 @@ public class FiringFeature : ExecutablePlayerFeature
         _netServices.SpawnWithSetUp(_projectile, new SetUpSettings(position, direction));
     }
 
-    #endregion
-
-
-    #region IPLayerFeature
-
     public override void ExecuteFeature()
     {
         if (!IsActive)

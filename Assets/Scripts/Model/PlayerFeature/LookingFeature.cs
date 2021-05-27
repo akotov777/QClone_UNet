@@ -69,11 +69,6 @@ public class LookingFeature : ExecutablePlayerFeature
         return q;
     }
 
-    #endregion
-
-
-    #region IPlayerFeature
-
     public override void ExecuteFeature()
     {
         if (!IsActive)

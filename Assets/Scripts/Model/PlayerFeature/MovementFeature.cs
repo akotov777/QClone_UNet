@@ -53,12 +53,6 @@ public class MovementFeature : ExecutablePlayerFeature
         return Input.GetButton("Jump");
     }
 
-
-    #endregion
-
-
-    #region IPlayerFeature
-
     public override void ExecuteFeature()
     {
         if (_characterController.isGrounded)
