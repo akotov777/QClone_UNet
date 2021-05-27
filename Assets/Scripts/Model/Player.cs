@@ -6,6 +6,11 @@ public class Player : NetworkBehaviour
 {
     #region Fields
 
+    [SerializeField, Range(1, 200)] private int _maxHP;
+    [SerializeField, Range(1, 200)] private int _maxArmor;
+    [SyncVar] private int _healthPoints;
+    [SyncVar] private int _armorPoints;
+
     [SerializeField] private Camera _camera;
     [SerializeField] private NetworkServices _netServices;
 
@@ -25,6 +30,8 @@ public class Player : NetworkBehaviour
     public Transform PositionToSpawnProjectile { get { return _positionToSpawn; } }
     public Collider Collider { get { return _collider; } }
     public CharacterController CharacterController { get { return _characterController; } }
+    public int HP { get { return _healthPoints; } }
+    public int Armor { get { return _armorPoints; } }
 
     #endregion
 
@@ -54,6 +61,7 @@ public class Player : NetworkBehaviour
     {
         _netServices = gameObject.GetComponent<NetworkServices>();
         _characterController = gameObject.GetComponent<CharacterController>();
+        _healthPoints = _maxHP;
     }
 
     private void LocalInitialization()
