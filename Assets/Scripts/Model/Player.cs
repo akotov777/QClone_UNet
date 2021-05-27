@@ -1,5 +1,6 @@
 ﻿using UnityEngine.Networking;
 using UnityEngine;
+using System;
 
 
 public class Player : NetworkBehaviour
@@ -19,6 +20,8 @@ public class Player : NetworkBehaviour
     [SerializeField] private Collider _collider;
     private CharacterController _characterController;
 
+    public Action HealthZeroOrBelow;
+
     #endregion
 
 
@@ -30,7 +33,26 @@ public class Player : NetworkBehaviour
     public Transform PositionToSpawnProjectile { get { return _positionToSpawn; } }
     public Collider Collider { get { return _collider; } }
     public CharacterController CharacterController { get { return _characterController; } }
-    public int HP { get { return _healthPoints; } }
+    public int HP
+    {
+        get { return _healthPoints; }
+        set
+        {
+            if (value <= 0)
+            {
+                HealthZeroOrBelow.Invoke();
+                _healthPoints = 0;
+            }
+            else if(value > _maxHP)
+            {
+                _healthPoints = _maxHP;
+            }
+            else
+            {
+                _healthPoints = value;
+            }
+        }
+    }
     public int Armor { get { return _armorPoints; } }
 
     #endregion
