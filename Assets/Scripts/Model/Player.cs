@@ -4,68 +4,68 @@ using UnityEngine;
 
 public class Player : NetworkBehaviour
 {
-	#region Fields
+    #region Fields
 
-	[SerializeField] private Camera _camera;
-	[SerializeField] private NetworkServices _netServices;
+    [SerializeField] private Camera _camera;
+    [SerializeField] private NetworkServices _netServices;
 
-	[SerializeField] private GameObject _objToSpawn;
-	[SerializeField] private Transform _positionToSpawn;
-	[SerializeField] private Collider _collider;
-	private CharacterController _characterController;
+    [SerializeField] private GameObject _objToSpawn;
+    [SerializeField] private Transform _positionToSpawn;
+    [SerializeField] private Collider _collider;
+    private CharacterController _characterController;
 
-	#endregion
+    #endregion
 
 
-	#region Properties
+    #region Properties
 
-	public Camera Camera { get { return _camera; } }
-	public NetworkServices NetworkServices { get { return _netServices; } }
-	public GameObject Projectile { get { return _objToSpawn; } }
-	public Transform PositionToSpawnProjectile { get { return _positionToSpawn; } }
-	public Collider Collider { get { return _collider; } }
-	public CharacterController CharacterController { get { return _characterController; } }
+    public Camera Camera { get { return _camera; } }
+    public NetworkServices NetworkServices { get { return _netServices; } }
+    public GameObject Projectile { get { return _objToSpawn; } }
+    public Transform PositionToSpawnProjectile { get { return _positionToSpawn; } }
+    public Collider Collider { get { return _collider; } }
+    public CharacterController CharacterController { get { return _characterController; } }
 
     #endregion
 
 
     #region UnityMethods
 
-	void Start()
+    void Start()
     {
-		CommonInitialization();
-		if (isLocalPlayer)
-			LocalInitialization();
-		if (!isLocalPlayer)
-			OtherClientsInitialization();
-	}
+        CommonInitialization();
+        if (isLocalPlayer)
+            LocalInitialization();
+        if (!isLocalPlayer)
+            OtherClientsInitialization();
+    }
 
     void Update()
     {
-        
+
     }
 
-	#endregion
+    #endregion
 
 
-	#region Methods
+    #region Methods
 
-	private void CommonInitialization()
-	{
-		_netServices = gameObject.GetComponent<NetworkServices>();
-		_characterController = gameObject.GetComponent<CharacterController>();
-	}
+    private void CommonInitialization()
+    {
+        _netServices = gameObject.GetComponent<NetworkServices>();
+        _characterController = gameObject.GetComponent<CharacterController>();
+    }
 
-	private void LocalInitialization()
-	{
-		FindObjectOfType<GameController>().SetUpPlayerController();
-	}
+    private void LocalInitialization()
+    {
+        FindObjectOfType<GameController>().SetUpPlayerController();
+    }
 
-	private void OtherClientsInitialization()
-	{
-		gameObject.GetComponentInChildren<Camera>().enabled = false;
-		gameObject.GetComponentInChildren<AudioListener>().enabled = false;
-	}
+    private void OtherClientsInitialization()
+    {
+        gameObject.GetComponentInChildren<Camera>().enabled = false;
+        gameObject.GetComponentInChildren<AudioListener>().enabled = false;
+    }
 
-	#endregion
+    #endregion
 }
