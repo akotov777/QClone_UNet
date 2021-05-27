@@ -2,5 +2,6 @@
 {
     FiringFeature,
     MovementFeature,
-    LookingFeature
+    LookingFeature,
+    DamageableFeature
 }
