@@ -3,5 +3,6 @@
     FiringFeature,
     MovementFeature,
     LookingFeature,
-    DamageableFeature
+    DamageableFeature,
+    DyingFeature
 }

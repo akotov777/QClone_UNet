@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 
 public sealed class DefaultDyingStrategy : IDyingStategy
@@ -7,24 +8,19 @@ public sealed class DefaultDyingStrategy : IDyingStategy
 
     private NetworkServices _netServices;
     private Player _player;
+    private Dictionary<FeatureType, BasePlayerFeature> _featureTable;
 
     #endregion
 
 
     #region ClassLifeCycles
 
-    public DefaultDyingStrategy(Player player, NetworkServices netServices)
+    public DefaultDyingStrategy(Player player, NetworkServices netServices, Dictionary<FeatureType, BasePlayerFeature> featureTable)
     {
         _player = player;
         _netServices = netServices;
+        _featureTable = featureTable;
     }
-
-    #endregion
-
-
-    #region Methods
-
-
 
     #endregion
 
@@ -33,11 +29,14 @@ public sealed class DefaultDyingStrategy : IDyingStategy
 
     public void Perform()
     {
-        var renderers = _player.GetComponents<Renderer>();
-        for (int i = 0; i < renderers.Length; i++)
-        {
+        _netServices.CmdChangeNetworkedObjectMaterials(
+            _player.gameObject,
+            Constants.ResourcesPaths.Materials.Default);
 
-        }
+        _featureTable[FeatureType.DamageableFeature].IsActive = false;
+        _featureTable[FeatureType.FiringFeature].IsActive = false;
+        _featureTable[FeatureType.MovementFeature].IsActive = false;
+        _featureTable[FeatureType.DyingFeature].IsActive = false;
     }
 
     #endregion

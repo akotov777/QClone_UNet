@@ -62,6 +62,37 @@ public sealed class NetworkServices : NetworkBehaviour
     }
 
     [Command]
+    public void CmdChangeNetworkedObjectMaterial(GameObject netObj, string materialInResources)
+    {
+        RpcChangeNetworkedObjectMaterial(netObj, materialInResources);
+    }
+
+    [ClientRpc]
+    private void RpcChangeNetworkedObjectMaterial(GameObject netObj, string materialInResources)
+    {
+        var renderer = netObj.GetComponent<Renderer>();
+        Material mat = Resources.Load<Material>(materialInResources);
+        renderer.sharedMaterial = mat;
+    }
+
+    [Command]
+    public void CmdChangeNetworkedObjectMaterials(GameObject netObj, string materialInResources)
+    {
+        RpcChangeNetworkedObjectMaterials(netObj, materialInResources);
+    }
+
+    [ClientRpc]
+    private void RpcChangeNetworkedObjectMaterials(GameObject netObj, string materialInResources)
+    {
+        var renderers = netObj.GetComponentsInChildren<Renderer>();
+        Material mat = Resources.Load<Material>(materialInResources);
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].sharedMaterial = mat;
+        }
+    }
+
+    [Command]
     private void CmdSpawn(NetworkHash128 hash, Vector3 position)
     {
         var chekingGO = Convert(hash);
