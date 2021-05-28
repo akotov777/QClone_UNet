@@ -2,23 +2,23 @@
 using System;
 
 
-public class DyingFeature : BasePlayerFeature
+public sealed class DyingFeature : BasePlayerFeature
 {
     #region Fields
 
     private Player _player;
-    private NetworkServices _netServices;
+    public IDyingStategy DyingStrategy;
 
     #endregion
 
 
     #region ClassLifeCycles
 
-    public DyingFeature(Player player, NetworkServices netServices)
+    public DyingFeature(Player player, NetworkServices netServices, IDyingStategy dyingStategy)
     {
         _player = player;
         _player.OnHealthZeroOrBelow += Die;
-        _netServices = netServices;
+        DyingStrategy = dyingStategy;
     }
 
     ~DyingFeature()
@@ -33,11 +33,10 @@ public class DyingFeature : BasePlayerFeature
 
     private void Die()
     {
-        var renderers = _player.GetComponents<Renderer>();
-        for (int i = 0; i < renderers.Length; i++)
-        {
+        if (!IsActive)
+            return;
 
-        }
+        DyingStrategy.Perform();
     }
 
     #endregion
