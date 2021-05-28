@@ -14,11 +14,11 @@ public sealed class DyingFeature : BasePlayerFeature
 
     #region ClassLifeCycles
 
-    public DyingFeature(Player player, NetworkServices netServices, IDyingStategy dyingStategy)
+    public DyingFeature(Player player, IDyingStategy dyingStrategy)
     {
         _player = player;
         _player.OnHealthZeroOrBelow += Die;
-        DyingStrategy = dyingStategy;
+        DyingStrategy = dyingStrategy;
     }
 
     ~DyingFeature()
