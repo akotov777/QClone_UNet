@@ -6,7 +6,7 @@ public class RespawnFeature : BasePlayerFeature
 {
     #region Fields
 
-
+    private Transform[] _spawnPoints;
 
     #endregion
 
