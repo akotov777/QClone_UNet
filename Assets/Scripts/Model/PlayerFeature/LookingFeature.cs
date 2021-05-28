@@ -41,8 +41,8 @@ public class LookingFeature : ExecutablePlayerFeature
 
     private void LookRotation(Transform camera, Transform cameraRotationFollower)
     {
-        float yRot = Input.GetAxis("Mouse X") * _settings.XSensitivity;
-        float xRot = Input.GetAxis("Mouse Y") * _settings.YSensitivity;
+        float yRot = Inputs.Looking.GetXAxis() * _settings.XSensitivity;
+        float xRot = Inputs.Looking.GetYAxis() * _settings.YSensitivity;
 
         _followerTargetRotate *= Quaternion.Euler(0f, yRot, 0f);
         _cameraTargetRotate *= Quaternion.Euler(-xRot, 0f, 0f);
