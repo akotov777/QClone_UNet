@@ -11,6 +11,16 @@ public static class ColliderExtentions
     #endregion
 
 
+    #region ClassLifeCycles
+
+    static ColliderExtentions()
+    {
+        _handlersTable = new Dictionary<Collider, List<ICollisionHandler>>();
+    }
+
+    #endregion
+
+
     #region Methods
 
     public static void AddCollisionHandler(this Collider collider, ICollisionHandler collisionHandler)
