@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 
 public class DyingFeature : BasePlayerFeature
@@ -18,6 +19,11 @@ public class DyingFeature : BasePlayerFeature
         _player = player;
         _player.OnHealthZeroOrBelow += Die;
         _netServices = netServices;
+    }
+
+    ~DyingFeature()
+    {
+        _player.OnHealthZeroOrBelow -= Die;
     }
 
     #endregion

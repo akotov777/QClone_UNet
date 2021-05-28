@@ -17,6 +17,11 @@
         _damageCalculator = calculator;
     }
 
+    ~TakingDamageFeature()
+    {
+        _player.Collider.RemoveHandler(this);
+    }
+
     #endregion
 
 

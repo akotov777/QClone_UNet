@@ -30,13 +30,22 @@ public static class ColliderExtentions
     public static void HandleCollision(this Collider collider, CollisionInfo info)
     {
         if (!_handlersTable.ContainsKey(collider))
-        {
             return;
-        }
+        if (_handlersTable[collider].Count == 0)
+            return;
+
         foreach (var handler in _handlersTable[collider])
         {
             handler.HandleCollision(info);
         }
+    }
+
+    public static void RemoveHandler(this Collider collider, ICollisionHandler collisionHandler)
+    {
+        if (!_handlersTable.ContainsKey(collider))
+            return;
+
+        _handlersTable[collider].Remove(collisionHandler);
     }
 
     #endregion
