@@ -30,7 +30,7 @@ public sealed class DefaultDyingStrategy : IDyingStategy
     {
         _netServices.CmdChangeNetworkedObjectMaterials(
             _player.gameObject,
-            Constants.ResourcesPaths.Materials.Default);
+            Constants.ResourcesPaths.Materials.TestDead);
 
         _featureTable[FeatureType.DamageableFeature].IsActive = false;
         _featureTable[FeatureType.FiringFeature].IsActive = false;
