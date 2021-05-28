@@ -480,6 +480,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efa6e5ac057e86742b31047d2ae6aa84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxHP: 1
+  _maxArmor: 1
   _camera: {fileID: 1777837787942316939}
   _netServices: {fileID: 114828352675018064}
   _objToSpawn: {fileID: 7018094096498400969, guid: ed5bee79623214140b8f74dd61bf2c2b,

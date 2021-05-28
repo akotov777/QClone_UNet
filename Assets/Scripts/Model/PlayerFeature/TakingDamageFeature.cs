@@ -1,4 +1,4 @@
-﻿public class DamageableFeature : BasePlayerFeature, ICollisionHandler
+﻿public class TakingDamageFeature : BasePlayerFeature, ICollisionHandler
 {
     #region Fields
 
@@ -10,9 +10,10 @@
 
     #region ClassLifeCycles
 
-    public DamageableFeature(Player player, DamageCalculator calculator)
+    public TakingDamageFeature(Player player, DamageCalculator calculator)
     {
         _player = player;
+        _player.Collider.AddCollisionHandler(this);
         _damageCalculator = calculator;
     }
 
@@ -34,6 +35,9 @@
 
     public void HandleCollision(CollisionInfo info)
     {
+        if (!IsActive)
+            return;
+
         DealDamage(info.IntDamage);
     }
 

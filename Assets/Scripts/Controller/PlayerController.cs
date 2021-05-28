@@ -74,7 +74,7 @@ public sealed class PlayerController
                                                  _netServices);
         MovementFeature movement = new MovementFeature(_player.CharacterController);
         LookingFeature looking = new LookingFeature(_player.Camera, _player.CharacterController.transform);
-        DamageableFeature damageable = new DamageableFeature(_player, new LinearAttenuationDamageCalculator());
+        TakingDamageFeature damageable = new TakingDamageFeature(_player, new LinearAttenuationDamageCalculator());
 
         featureTable.Add(FeatureType.FiringFeature, firing);
         featureTable.Add(FeatureType.MovementFeature, movement);

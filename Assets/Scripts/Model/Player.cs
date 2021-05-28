@@ -20,7 +20,7 @@ public class Player : NetworkBehaviour
     [SerializeField] private Collider _collider;
     private CharacterController _characterController;
 
-    public Action HealthZeroOrBelow;
+    public Action OnHealthZeroOrBelow;
 
     #endregion
 
@@ -40,7 +40,7 @@ public class Player : NetworkBehaviour
         {
             if (value <= 0)
             {
-                HealthZeroOrBelow.Invoke();
+                OnHealthZeroOrBelow.Invoke();
                 _healthPoints = 0;
             }
             else if(value > _maxHP)
