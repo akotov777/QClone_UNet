@@ -4,5 +4,6 @@
     MovementFeature,
     LookingFeature,
     DamageableFeature,
-    DyingFeature
+    DyingFeature,
+    RespawnFeature
 }

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System;
+using System.Collections.Generic;
 
 
 public sealed class DyingFeature : BasePlayerFeature
@@ -8,16 +8,18 @@ public sealed class DyingFeature : BasePlayerFeature
 
     private Player _player;
     public IDyingStategy DyingStrategy;
+    private Dictionary<FeatureType, BasePlayerFeature> _featureTable;
 
     #endregion
 
 
     #region ClassLifeCycles
 
-    public DyingFeature(Player player, IDyingStategy dyingStrategy)
+    public DyingFeature(Player player, Dictionary<FeatureType, BasePlayerFeature> featureTable, IDyingStategy dyingStrategy)
     {
         _player = player;
         _player.OnHealthZeroOrBelow += Die;
+        _featureTable = featureTable;
         DyingStrategy = dyingStrategy;
     }
 
@@ -37,6 +39,12 @@ public sealed class DyingFeature : BasePlayerFeature
             return;
 
         DyingStrategy.Perform();
+
+        _featureTable[FeatureType.DamageableFeature].IsActive = false;
+        _featureTable[FeatureType.FiringFeature].IsActive = false;
+        _featureTable[FeatureType.MovementFeature].IsActive = false;
+        _featureTable[FeatureType.DyingFeature].IsActive = false;
+        _featureTable[FeatureType.RespawnFeature].IsActive = true;
     }
 
     #endregion

@@ -76,8 +76,8 @@ public sealed class PlayerController
         LookingFeature looking = new LookingFeature(_player.Camera, _player.CharacterController.transform);
         TakingDamageFeature damageable = new TakingDamageFeature(_player, new LinearAttenuationDamageCalculator());
 
-        IDyingStategy dyingStrategy = new DefaultDyingStrategy(_player, _netServices, featureTable);
-        DyingFeature dying = new DyingFeature(_player, dyingStrategy);
+        IDyingStategy dyingStrategy = new DefaultDyingStrategy(_player, _netServices);
+        DyingFeature dying = new DyingFeature(_player, featureTable, dyingStrategy);
 
         featureTable.Add(FeatureType.FiringFeature, firing);
         featureTable.Add(FeatureType.MovementFeature, movement);
