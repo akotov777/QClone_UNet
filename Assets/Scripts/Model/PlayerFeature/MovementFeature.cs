@@ -24,7 +24,9 @@ public class MovementFeature : ExecutablePlayerFeature
     public MovementFeature(CharacterController characterController)
     {
         _characterController = characterController;
-        _settings = Resources.Load<PlayerMovementSettings>("Data/PlayerMovementSettings");
+        _settings = Resources.Load<PlayerMovementSettings>(
+            Constants.ResourcesPaths
+            .Data.PlayerMovementSettings);
     }
 
     #endregion
