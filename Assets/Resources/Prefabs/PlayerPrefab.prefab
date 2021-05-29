@@ -323,10 +323,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6664323788851546391}
+  - component: {fileID: 3690942312558039689}
   - component: {fileID: 6664323788851546388}
   - component: {fileID: 6664323788851546389}
   - component: {fileID: 114752420696266938}
-  - component: {fileID: 3690942312558039689}
   - component: {fileID: 114828352675018064}
   - component: {fileID: 801381046148749368}
   m_Layer: 0
@@ -353,6 +353,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3690942312558039689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6664323788851546386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efa6e5ac057e86742b31047d2ae6aa84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHP: 200
+  _startHP: 100
+  _maxArmor: 200
+  _startArmor: 0
+  _camera: {fileID: 1777837787942316939}
+  _netServices: {fileID: 114828352675018064}
+  _objToSpawn: {fileID: 1504436975433928952, guid: ca35aac788a9bad439f970fec1b2a789,
+    type: 3}
+  _positionToSpawn: {fileID: 5776018776177170828}
+  _collider: {fileID: 6664323788851546389}
 --- !u!114 &6664323788851546388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,28 +448,6 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &3690942312558039689
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6664323788851546386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efa6e5ac057e86742b31047d2ae6aa84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxHP: 1
-  _startHP: 0
-  _maxArmor: 1
-  _startArmor: 0
-  _camera: {fileID: 1777837787942316939}
-  _netServices: {fileID: 114828352675018064}
-  _objToSpawn: {fileID: 1504436975433928952, guid: ca35aac788a9bad439f970fec1b2a789,
-    type: 3}
-  _positionToSpawn: {fileID: 5776018776177170828}
-  _collider: {fileID: 6664323788851546389}
 --- !u!114 &114828352675018064
 MonoBehaviour:
   m_ObjectHideFlags: 0

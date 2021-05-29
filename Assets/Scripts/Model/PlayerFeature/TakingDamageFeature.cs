@@ -1,4 +1,7 @@
-﻿public class TakingDamageFeature : BasePlayerFeature, ICollisionHandler
+﻿using UnityEngine;
+
+
+public class TakingDamageFeature : BasePlayerFeature, ICollisionHandler
 {
     #region Fields
 
@@ -40,8 +43,13 @@
 
     public void HandleCollision(CollisionInfo info)
     {
+        Debug.Log("InDamageFeature");
         if (!IsActive)
+        {
+            Debug.Log("Feature not active");
+
             return;
+        }
 
         DealDamage(info.IntDamage);
     }

@@ -10,7 +10,7 @@ public class Player : NetworkBehaviour
     [SerializeField, Range(1, 200)] private int _maxHP;
     [SerializeField, Range(1, 200)] private int _startHP;
     [SerializeField, Range(1, 200)] private int _maxArmor;
-    [SerializeField, Range(1, 200)] private int _startArmor;
+    [SerializeField, Range(0, 200)] private int _startArmor;
     [SyncVar] private int _healthPoints;
     [SyncVar] private int _armorPoints;
 
@@ -73,6 +73,11 @@ public class Player : NetworkBehaviour
             OtherClientsInitialization();
     }
 
+    private void FixedUpdate()
+    {
+        Debug.Log(_collider.GetHashCode());
+    }
+
     #endregion
 
 
@@ -82,7 +87,8 @@ public class Player : NetworkBehaviour
     {
         _netServices = gameObject.GetComponent<NetworkServices>();
         _characterController = gameObject.GetComponent<CharacterController>();
-        _healthPoints = _maxHP;
+        _healthPoints = _startHP;
+        _armorPoints = _startArmor;
     }
 
     private void LocalInitialization()

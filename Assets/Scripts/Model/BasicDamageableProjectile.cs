@@ -27,15 +27,21 @@ public class BasicDamageableProjectile : NetworkBehaviour, IPoolable, ISpawnSetU
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log("Collide");
-
-        if (collision.collider.gameObject.HasComponent<Player>())
-        {
-            Debug.Log("Collide Player");
-            var info = new CollisionInfo();
-            info.FloatDamage = 10;
-            collision.collider.HandleCollision(info);
-        }
+        var info = new CollisionInfo();
+        info.FloatDamage = 10;
         ReturnToPool();
+
+        var colliders = Physics.OverlapSphere(transform.position, 10f);
+        Debug.Log(colliders.Length);
+
+        foreach (var coll in colliders)
+        {
+            if (coll.gameObject.HasComponent<Player>())
+            {
+                Debug.Log("Collide Player");
+                collision.collider.HandleCollision(info);
+            }
+        }
     }
 
     #endregion
@@ -46,6 +52,12 @@ public class BasicDamageableProjectile : NetworkBehaviour, IPoolable, ISpawnSetU
     public void SetDirection(Vector3 direction)
     {
         _direction = direction;
+    }
+
+    [Command]
+    public void CmdCastHit()
+    {
+        //Physics.OverlapSphere();
     }
 
     #endregion
