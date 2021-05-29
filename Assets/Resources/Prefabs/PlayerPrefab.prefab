@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8779203932415771098}
   - component: {fileID: 8007764707092873267}
   - component: {fileID: 3266867226729147918}
-  - component: {fileID: 4906333652548330271}
   m_Layer: 0
   m_Name: HandRight
   m_TagString: Untagged
@@ -78,19 +77,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &4906333652548330271
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1491869382688722248}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2582750663529887463
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,7 +118,6 @@ GameObject:
   - component: {fileID: 1916793562827178469}
   - component: {fileID: 2539904730397113081}
   - component: {fileID: 7378594224616956826}
-  - component: {fileID: 5441760514759511904}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -199,19 +184,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &5441760514759511904
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6548412120178455041}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6664323788006844722
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,7 +195,6 @@ GameObject:
   - component: {fileID: 6664323788006844725}
   - component: {fileID: 6664323788006844726}
   - component: {fileID: 6664323788006844727}
-  - component: {fileID: 6664323788006844724}
   - component: {fileID: 1777837787942316939}
   - component: {fileID: 4973111028477499163}
   m_Layer: 0
@@ -293,19 +264,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &6664323788006844724
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6664323788006844722}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!20 &1777837787942316939
 Camera:
   m_ObjectHideFlags: 0
@@ -481,10 +439,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHP: 1
+  _startHP: 0
   _maxArmor: 1
+  _startArmor: 0
   _camera: {fileID: 1777837787942316939}
   _netServices: {fileID: 114828352675018064}
-  _objToSpawn: {fileID: 7018094096498400969, guid: ed5bee79623214140b8f74dd61bf2c2b,
+  _objToSpawn: {fileID: 1504436975433928952, guid: ca35aac788a9bad439f970fec1b2a789,
     type: 3}
   _positionToSpawn: {fileID: 5776018776177170828}
   _collider: {fileID: 6664323788851546389}
@@ -531,7 +491,6 @@ GameObject:
   - component: {fileID: 6664323789489910735}
   - component: {fileID: 6664323789489910720}
   - component: {fileID: 6664323789489910721}
-  - component: {fileID: 6664323789489910734}
   m_Layer: 0
   m_Name: Torso
   m_TagString: Untagged
@@ -600,20 +559,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &6664323789489910734
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6664323789489910732}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8139677415319111236
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,7 +570,6 @@ GameObject:
   - component: {fileID: 662698547666769585}
   - component: {fileID: 4141355870460367861}
   - component: {fileID: 8208393769995972598}
-  - component: {fileID: 2612765802064305313}
   m_Layer: 0
   m_Name: HandLeft
   m_TagString: Untagged
@@ -692,16 +636,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &2612765802064305313
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8139677415319111236}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
