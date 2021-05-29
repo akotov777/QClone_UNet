@@ -8,7 +8,9 @@ public class Player : NetworkBehaviour
     #region Fields
 
     [SerializeField, Range(1, 200)] private int _maxHP;
+    [SerializeField, Range(1, 200)] private int _startHP;
     [SerializeField, Range(1, 200)] private int _maxArmor;
+    [SerializeField, Range(1, 200)] private int _startArmor;
     [SyncVar] private int _healthPoints;
     [SyncVar] private int _armorPoints;
 
@@ -53,7 +55,9 @@ public class Player : NetworkBehaviour
             }
         }
     }
+    public int StartHP { get { return _startHP; } }
     public int Armor { get { return _armorPoints; } }
+    public int StartArmor { get { return _startArmor; } }
 
     #endregion
 
@@ -67,11 +71,6 @@ public class Player : NetworkBehaviour
             LocalInitialization();
         if (!isLocalPlayer)
             OtherClientsInitialization();
-    }
-
-    void Update()
-    {
-
     }
 
     #endregion

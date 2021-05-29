@@ -3,5 +3,5 @@
 
 public interface IChooseSpawnPointLogic
 {
-	Transform ChooseSpawnPoint(Transform[] spawnPoints);
+	SpawnPoint ChooseSpawnPoint(SpawnPoint[] spawnPoints);
 }

@@ -6,7 +6,7 @@ public sealed class DefaultSpawnChooser : IChooseSpawnPointLogic
 {
     #region IChooseSpawnPointLogic
 
-    public Transform ChooseSpawnPoint(Transform[] spawnPoints)
+    public SpawnPoint ChooseSpawnPoint(SpawnPoint[] spawnPoints)
     {
         System.Random r = new System.Random();
         return spawnPoints[r.Next(spawnPoints.Length)];

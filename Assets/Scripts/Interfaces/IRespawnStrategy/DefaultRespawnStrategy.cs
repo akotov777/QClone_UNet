@@ -19,13 +19,14 @@
     #endregion
 
 
-    #region IDyingStrategy
+    #region IRespawnStrategy
 
     public void Perform()
     {
         _netServices.CmdChangeNetworkedObjectMaterials(
             _player.gameObject,
             Constants.ResourcesPaths.Materials.Default);
+        _player.HP = _player.StartHP;
     }
 
     #endregion

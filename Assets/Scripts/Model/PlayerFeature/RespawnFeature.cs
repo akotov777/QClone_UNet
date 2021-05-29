@@ -8,7 +8,7 @@ public class RespawnFeature : ExecutablePlayerFeature
 
     private Player _player;
     private NetworkServices _netServices;
-    private Transform[] _spawnPoints;
+    private SpawnPoint[] _spawnPoints;
     private IChooseSpawnPointLogic _logic;
     private Dictionary<FeatureType, BasePlayerFeature> _featureTable;
     private bool _canSpawn;
@@ -28,9 +28,10 @@ public class RespawnFeature : ExecutablePlayerFeature
         _netServices = netServices;
         _player = player;
         _respawnStrategy = respawnStrategy;
+        _spawnPoints = GameObject.FindObjectsOfType<SpawnPoint>();
         TimeToRespawn = 5.0f;
 
-        _respawnDelay = new DelayedAction(RespawnDelay, TimeToRespawn);
+        _respawnDelay = new DelayedAction(SetCanSpawnTrue, TimeToRespawn);
         OnEnable += SetCanSpawnFalse;
         OnEnable += _respawnDelay.AddDelayedAction;
     }
@@ -39,11 +40,6 @@ public class RespawnFeature : ExecutablePlayerFeature
 
 
     #region Methods
-
-    private void RespawnDelay()
-    {
-        SetCanSpawnTrue();
-    }
 
     private void SetCanSpawnTrue()
     {
@@ -56,8 +52,8 @@ public class RespawnFeature : ExecutablePlayerFeature
 
     private void Respawn()
     {
-        Transform point = _logic.ChooseSpawnPoint(_spawnPoints);
-        _netServices.CmdTeleportObject(_player.gameObject, point.localToWorldMatrix);
+        SpawnPoint point = _logic.ChooseSpawnPoint(_spawnPoints);
+        _netServices.CmdTeleportObject(_player.gameObject, point.transform.localToWorldMatrix);
         _respawnStrategy.Perform();
 
         _featureTable[FeatureType.DamageableFeature].IsActive = true;
