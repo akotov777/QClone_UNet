@@ -12,6 +12,7 @@ public class RespawnFeature : ExecutablePlayerFeature
     private IChooseSpawnPointLogic _logic;
     private Dictionary<FeatureType, BasePlayerFeature> _featureTable;
     private bool _canSpawn;
+    private DelayedAction _respawnDelay;
 
     public IRespawnStrategy _respawnStrategy;
     public float TimeToRespawn;
@@ -27,6 +28,11 @@ public class RespawnFeature : ExecutablePlayerFeature
         _netServices = netServices;
         _player = player;
         _respawnStrategy = respawnStrategy;
+        TimeToRespawn = 5.0f;
+
+        _respawnDelay = new DelayedAction(RespawnDelay, TimeToRespawn);
+        OnEnable += SetCanSpawnFalse;
+        OnEnable += _respawnDelay.AddDelayedAction;
     }
 
     #endregion
@@ -36,7 +42,16 @@ public class RespawnFeature : ExecutablePlayerFeature
 
     private void RespawnDelay()
     {
+        SetCanSpawnTrue();
+    }
 
+    private void SetCanSpawnTrue()
+    {
+        _canSpawn = true;
+    }
+    private void SetCanSpawnFalse()
+    {
+        _canSpawn = false;
     }
 
     private void Respawn()

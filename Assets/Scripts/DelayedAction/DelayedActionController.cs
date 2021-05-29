@@ -3,39 +3,39 @@ using UnityEngine;
 
 
 
-public sealed class RepeatableActionController
+public sealed class DelayedActionController
 {
     #region Fields
 
-    private readonly List<IRepeatableAction> _timeRemainings;
+    private readonly List<IDelayedAction> _delayedActions;
 
     #endregion
 
 
     #region ClassLifeCycles
 
-    public RepeatableActionController()
+    public DelayedActionController()
     {
-        _timeRemainings = RepeatableActionExtentions.TimeRemainings;
+        _delayedActions = DelayedActionExtentions.DelayedActions;
     }
 
     #endregion
 
 
-    #region IExecute
+    #region Methods
 
     public void Execute()
     {
         var time = Time.deltaTime;
-        for (var i = 0; i < _timeRemainings.Count; i++)
+        for (var i = 0; i < _delayedActions.Count; i++)
         {
-            var obj = _timeRemainings[i];
+            var obj = _delayedActions[i];
             obj.RemainingTime -= time;
             if (obj.RemainingTime <= 0.0f)
             {
                 obj.Method.Invoke();
                 if (!obj.IsRepeating)
-                    obj.RemoveTimeRemaining();
+                    obj.RemoveDelayedAction();
                 else
                     obj.RemainingTime = obj.TimeToInvoke;
             }

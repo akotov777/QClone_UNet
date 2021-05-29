@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-public interface IRepeatableAction
+public interface IDelayedAction
 {
     #region Properties
 

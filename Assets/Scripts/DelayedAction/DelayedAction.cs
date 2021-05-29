@@ -1,11 +1,11 @@
 ﻿using System;
 
 
-public sealed class RepeatableAction : IRepeatableAction
+public sealed class DelayedAction : IDelayedAction
 {
     #region ClassLifeCycles
 
-    public RepeatableAction(Action method, float timeToNextInoke, bool isRepeating = false)
+    public DelayedAction(Action method, float timeToNextInoke, bool isRepeating = false)
     {
         Method = method;
         TimeToInvoke = timeToNextInoke;
@@ -16,7 +16,7 @@ public sealed class RepeatableAction : IRepeatableAction
     #endregion
 
 
-    #region IRepeatableAction
+    #region IDelayedAction
 
     public Action Method { get; }
     public bool IsRepeating { get; }

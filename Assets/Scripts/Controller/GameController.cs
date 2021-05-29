@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private UIController _uIController;
-    private RepeatableActionController _repeatableActionController;
+    private DelayedActionController _repeatableActionController;
 
     [SerializeField] private NetworkManager _netManager;
     private NetworkClient _client;
@@ -29,7 +29,7 @@ public class GameController : MonoBehaviour
     {
         _uIController = Instantiate(_uIController);
         _netManager = FindObjectOfType<NetworkManager>();
-        _repeatableActionController = new RepeatableActionController();
+        _repeatableActionController = new DelayedActionController();
     }
 
     void Update()
