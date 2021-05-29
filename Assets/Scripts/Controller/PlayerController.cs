@@ -64,7 +64,7 @@ public sealed class PlayerController
 
     private Dictionary<FeatureType, BasePlayerFeature> PopulateFeatureTable()
     {
-        _executableFeatures = new ExecutablePlayerFeature[3];
+        _executableFeatures = new ExecutablePlayerFeature[4];
 
         Dictionary<FeatureType, BasePlayerFeature> featureTable = new Dictionary<FeatureType, BasePlayerFeature>();
 
@@ -79,15 +79,21 @@ public sealed class PlayerController
         IDyingStategy dyingStrategy = new DefaultDyingStrategy(_player, _netServices);
         DyingFeature dying = new DyingFeature(_player, featureTable, dyingStrategy);
 
+        DefaultSpawnChooser chooser = new DefaultSpawnChooser();
+        DefaultRespawnStrategy respawnStrategy = new DefaultRespawnStrategy(_player, _netServices);
+        RespawnFeature respawn = new RespawnFeature(_player, _netServices, chooser, respawnStrategy);
+
         featureTable.Add(FeatureType.FiringFeature, firing);
         featureTable.Add(FeatureType.MovementFeature, movement);
         featureTable.Add(FeatureType.LookingFeature, looking);
         featureTable.Add(FeatureType.DamageableFeature, damageable);
         featureTable.Add(FeatureType.DyingFeature, dying);
+        featureTable.Add(FeatureType.RespawnFeature, respawn);
 
         _executableFeatures[0] = firing;
         _executableFeatures[1] = movement;
         _executableFeatures[2] = looking;
+        _executableFeatures[3] = respawn;
 
         return featureTable;
     }

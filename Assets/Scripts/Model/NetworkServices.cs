@@ -62,14 +62,9 @@ public sealed class NetworkServices : NetworkBehaviour
     }
 
     [Command]
-    public void CmdTeleportObject(GameObject netObj, Matrix4x4 transformTo, bool useRPC = false)
+    public void CmdTeleportObject(GameObject netObj, Matrix4x4 transformTo)
     {
-        if (useRPC)
-        {
             RpcTeleportObject(netObj, transformTo);
-            return;
-        }
-        netObj.transform.SetFromMatrix(transformTo);
     }
 
     [ClientRpc]
