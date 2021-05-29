@@ -59,4 +59,16 @@ public static class Inputs
             return Input.GetAxis("Mouse Y");
         }
     }
+
+    public static class Respawning
+    {
+        public static bool IsActive = false;
+
+        public static bool RespawnButtonPressed()
+        {
+            if (!IsActive)
+                return false;
+            return Input.GetKeyDown(KeyCode.Mouse0);
+        }
+    }
 }

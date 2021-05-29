@@ -12,6 +12,8 @@ public class RespawnFeature : ExecutablePlayerFeature
     private IChooseSpawnPointLogic _logic;
     private Dictionary<FeatureType, BasePlayerFeature> _featureTable;
     private bool _canSpawn;
+
+    public IRespawnStrategy _respawnStrategy;
     public float TimeToRespawn;
 
     #endregion
@@ -19,11 +21,12 @@ public class RespawnFeature : ExecutablePlayerFeature
 
     #region ClassLifeCycles
 
-    public RespawnFeature(IChooseSpawnPointLogic logic, NetworkServices netServices, Player player)
+    public RespawnFeature(Player player, NetworkServices netServices, IChooseSpawnPointLogic logic, IRespawnStrategy respawnStrategy)
     {
         _logic = logic;
         _netServices = netServices;
         _player = player;
+        _respawnStrategy = respawnStrategy;
     }
 
     #endregion
@@ -40,7 +43,7 @@ public class RespawnFeature : ExecutablePlayerFeature
     {
         Transform point = _logic.ChooseSpawnPoint(_spawnPoints);
         _netServices.CmdTeleportObject(_player.gameObject, point.localToWorldMatrix);
-        _netServices.CmdChangeNetworkedObjectMaterials(_player.gameObject, Constants.ResourcesPaths.Materials.Default);
+        _respawnStrategy.Perform();
 
         _featureTable[FeatureType.DamageableFeature].IsActive = true;
         _featureTable[FeatureType.FiringFeature].IsActive = true;
@@ -51,7 +54,8 @@ public class RespawnFeature : ExecutablePlayerFeature
 
     public override void ExecuteFeature()
     {
-
+        if (IsActive && _canSpawn && Inputs.Respawning.RespawnButtonPressed())
+            Respawn();
     }
 
     #endregion
