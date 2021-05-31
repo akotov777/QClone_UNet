@@ -40,7 +40,7 @@ public sealed class DyingFeature : BasePlayerFeature
 
         DyingStrategy.Perform();
 
-        _featureTable[FeatureType.DamageableFeature].IsActive = false;
+        _featureTable[FeatureType.TakingDamageFeature].IsActive = false;
         _featureTable[FeatureType.FiringFeature].IsActive = false;
         _featureTable[FeatureType.MovementFeature].IsActive = false;
         _featureTable[FeatureType.DyingFeature].IsActive = false;

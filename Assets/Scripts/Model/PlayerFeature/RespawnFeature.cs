@@ -22,18 +22,26 @@ public class RespawnFeature : ExecutablePlayerFeature
 
     #region ClassLifeCycles
 
-    public RespawnFeature(Player player, NetworkServices netServices, IChooseSpawnPointLogic logic, IRespawnStrategy respawnStrategy)
+    public RespawnFeature(Player player,
+                          NetworkServices netServices,
+                          Dictionary<FeatureType, BasePlayerFeature> featureTable,
+                          IChooseSpawnPointLogic logic, 
+                          IRespawnStrategy respawnStrategy)
     {
-        _logic = logic;
-        _netServices = netServices;
+        IsActive = false;
         _player = player;
+        _netServices = netServices;
+        _featureTable = featureTable;
+        _logic = logic;
         _respawnStrategy = respawnStrategy;
         _spawnPoints = GameObject.FindObjectsOfType<SpawnPoint>();
-        TimeToRespawn = 5.0f;
+        TimeToRespawn = 0.1f;
 
         _respawnDelay = new DelayedAction(SetCanSpawnTrue, TimeToRespawn);
+        OnEnable += () => Inputs.Respawning.IsActive = true;
         OnEnable += SetCanSpawnFalse;
         OnEnable += _respawnDelay.AddDelayedAction;
+        OnDisable += () => Inputs.Respawning.IsActive = false;
     }
 
     #endregion
@@ -56,7 +64,7 @@ public class RespawnFeature : ExecutablePlayerFeature
         _netServices.CmdTeleportObject(_player.gameObject, point.transform.localToWorldMatrix);
         _respawnStrategy.Perform();
 
-        _featureTable[FeatureType.DamageableFeature].IsActive = true;
+        _featureTable[FeatureType.TakingDamageFeature].IsActive = true;
         _featureTable[FeatureType.FiringFeature].IsActive = true;
         _featureTable[FeatureType.MovementFeature].IsActive = true;
         _featureTable[FeatureType.DyingFeature].IsActive = true;

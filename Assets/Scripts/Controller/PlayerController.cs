@@ -81,12 +81,12 @@ public sealed class PlayerController
 
         DefaultSpawnChooser chooser = new DefaultSpawnChooser();
         DefaultRespawnStrategy respawnStrategy = new DefaultRespawnStrategy(_player, _netServices);
-        RespawnFeature respawn = new RespawnFeature(_player, _netServices, chooser, respawnStrategy);
+        RespawnFeature respawn = new RespawnFeature(_player, _netServices, featureTable, chooser, respawnStrategy);
 
         featureTable.Add(FeatureType.FiringFeature, firing);
         featureTable.Add(FeatureType.MovementFeature, movement);
         featureTable.Add(FeatureType.LookingFeature, looking);
-        featureTable.Add(FeatureType.DamageableFeature, damageable);
+        featureTable.Add(FeatureType.TakingDamageFeature, damageable);
         featureTable.Add(FeatureType.DyingFeature, dying);
         featureTable.Add(FeatureType.RespawnFeature, respawn);
 

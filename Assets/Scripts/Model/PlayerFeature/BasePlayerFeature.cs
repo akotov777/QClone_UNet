@@ -6,8 +6,8 @@ public abstract class BasePlayerFeature
     #region Fields
 
     internal bool _isActive = true;
-    internal Action OnEnable;
-    internal Action OnDisable;
+    internal Action OnEnable = () => { };
+    internal Action OnDisable = () => { };
 
     #endregion
 

@@ -73,11 +73,6 @@ public class Player : NetworkBehaviour
             OtherClientsInitialization();
     }
 
-    private void FixedUpdate()
-    {
-        Debug.Log(_collider.GetHashCode());
-    }
-
     #endregion
 
 
@@ -89,6 +84,7 @@ public class Player : NetworkBehaviour
         _characterController = gameObject.GetComponent<CharacterController>();
         _healthPoints = _startHP;
         _armorPoints = _startArmor;
+        OnHealthZeroOrBelow = () => { };
     }
 
     private void LocalInitialization()

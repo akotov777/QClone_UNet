@@ -43,13 +43,8 @@ public class TakingDamageFeature : BasePlayerFeature, ICollisionHandler
 
     public void HandleCollision(CollisionInfo info)
     {
-        Debug.Log("InDamageFeature");
         if (!IsActive)
-        {
-            Debug.Log("Feature not active");
-
             return;
-        }
 
         DealDamage(info.IntDamage);
     }
