@@ -40,11 +40,6 @@ public class BasicDamageableProjectile : NetworkBehaviour, IPoolable, ISpawnSetU
     }
 
     [ServerCallback]
-    void Update()
-    {
-    }
-
-    [ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
         RpcDoDamage();
@@ -62,7 +57,7 @@ public class BasicDamageableProjectile : NetworkBehaviour, IPoolable, ISpawnSetU
     }
 
     private void DoDamage()
-    { 
+    {
         var info = new CollisionInfo();
         info.IntDamage = _dealingDamage;
 
