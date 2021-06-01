@@ -19,29 +19,16 @@ public class BasicDamageableProjectile : NetworkBehaviour, IPoolable, ISpawnSetU
 
     void Update()
     {
-        //if (isClient)
-        //    return;
         transform.position += _direction * _speed * Time.deltaTime;
     }
 
+    [Server]
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Collide");
-        var info = new CollisionInfo();
-        info.FloatDamage = 10;
+        RpcDoDamage();
+        DoDamage();
         ReturnToPool();
-
-        var colliders = Physics.OverlapSphere(transform.position, 10f);
-        Debug.Log(colliders.Length);
-
-        foreach (var coll in colliders)
-        {
-            if (coll.gameObject.HasComponent<Player>())
-            {
-                Debug.Log("Collide Player");
-                collision.collider.HandleCollision(info);
-            }
-        }
+        NetworkServer.UnSpawn(gameObject);
     }
 
     #endregion
@@ -54,10 +41,25 @@ public class BasicDamageableProjectile : NetworkBehaviour, IPoolable, ISpawnSetU
         _direction = direction;
     }
 
-    [Command]
-    public void CmdCastHit()
+    private void DoDamage()
     {
-        //Physics.OverlapSphere();
+        var info = new CollisionInfo();
+        info.IntDamage = 10;
+
+        var colliders = Physics.OverlapSphere(transform.position, 10f);
+        foreach (var coll in colliders)
+        {
+            if (coll.gameObject.HasComponent<Player>())
+            {
+                coll.GetComponent<Player>().Collider.HandleCollision(info);
+            }
+        }
+    }
+
+    [ClientRpc]
+    public void RpcDoDamage()
+    {
+        DoDamage();
     }
 
     #endregion

@@ -64,7 +64,7 @@ public sealed class NetworkServices : NetworkBehaviour
     [Command]
     public void CmdTeleportObject(GameObject netObj, Matrix4x4 transformTo)
     {
-            RpcTeleportObject(netObj, transformTo);
+        RpcTeleportObject(netObj, transformTo);
     }
 
     [ClientRpc]
@@ -111,7 +111,7 @@ public sealed class NetworkServices : NetworkBehaviour
 
         if (chekingGO.HasComponent<IPoolable>())
         {
-            CmdSpawnFromPool(chekingGO, position);
+            SpawnFromPool(chekingGO, position);
         }
         else
         {
@@ -120,8 +120,8 @@ public sealed class NetworkServices : NetworkBehaviour
         }
     }
 
-    [Command]
-    private void CmdSpawnFromPool(GameObject prefab, Vector3 position)
+    [Server]
+    private void SpawnFromPool(GameObject prefab, Vector3 position)
     {
         GameObject go = _pool.GetFromPool(position, prefab);
         NetworkServer.Spawn(go);
