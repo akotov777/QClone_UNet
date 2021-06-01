@@ -1,5 +1,6 @@
 ﻿using UnityEngine.Networking;
 using UnityEngine;
+using System.Collections;
 
 
 public class BasicDamageableProjectile : NetworkBehaviour, IPoolable, ISpawnSetUpable
@@ -17,18 +18,30 @@ public class BasicDamageableProjectile : NetworkBehaviour, IPoolable, ISpawnSetU
 
     #region UnityMethods
 
+    [ServerCallback]
+    private void OnEnable()
+    {
+        StartCoroutine(LifeTimeDestroy());
+    }
+
+    [ServerCallback]
+    private void OnDisable()
+    {
+        StopCoroutine(LifeTimeDestroy());
+    }
+
+    [ServerCallback]
     void Update()
     {
         transform.position += _direction * _speed * Time.deltaTime;
     }
 
-    [Server]
+    [ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
         RpcDoDamage();
         DoDamage();
-        ReturnToPool();
-        NetworkServer.UnSpawn(gameObject);
+        UnSpawn();
     }
 
     #endregion
@@ -60,6 +73,19 @@ public class BasicDamageableProjectile : NetworkBehaviour, IPoolable, ISpawnSetU
     public void RpcDoDamage()
     {
         DoDamage();
+    }
+
+    private void UnSpawn()
+    {
+        ReturnToPool();
+        NetworkServer.UnSpawn(gameObject);
+    }
+
+    private IEnumerator LifeTimeDestroy()
+    {
+        yield return new WaitForSeconds(_lifeTime);
+        Debug.LogWarning("LTD");
+        UnSpawn();
     }
 
     #endregion
