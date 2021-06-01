@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-
+﻿
 
 public class TakingDamageFeature : BasePlayerFeature, ICollisionHandler
 {
@@ -7,17 +6,19 @@ public class TakingDamageFeature : BasePlayerFeature, ICollisionHandler
 
     private Player _player;
     private DamageCalculator _damageCalculator;
+    private NetworkServices _netServices;
 
     #endregion
 
 
     #region ClassLifeCycles
 
-    public TakingDamageFeature(Player player, DamageCalculator calculator)
+    public TakingDamageFeature(Player player, NetworkServices netServices, DamageCalculator calculator)
     {
         _player = player;
         _player.Collider.AddCollisionHandler(this);
         _damageCalculator = calculator;
+        _netServices = netServices;
     }
 
     ~TakingDamageFeature()
@@ -33,7 +34,7 @@ public class TakingDamageFeature : BasePlayerFeature, ICollisionHandler
     private void DealDamage(int damage)
     {
         int dealingDamage = _damageCalculator.CalculateDamage(damage, _player.Armor);
-        _player.HP -= dealingDamage;
+        _netServices.CmdChangePlayerHP(_player.HP - dealingDamage);
     }
 
     #endregion

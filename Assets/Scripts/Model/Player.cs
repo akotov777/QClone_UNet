@@ -42,21 +42,29 @@ public class Player : NetworkBehaviour
         {
             if (value <= 0)
             {
-                OnHealthZeroOrBelow.Invoke();
                 _healthPoints = 0;
+                OnHealthZeroOrBelow.Invoke();
             }
-            else if(value > _maxHP)
-            {
+            else if (value > _maxHP)
                 _healthPoints = _maxHP;
-            }
             else
-            {
                 _healthPoints = value;
-            }
         }
     }
     public int StartHP { get { return _startHP; } }
-    public int Armor { get { return _armorPoints; } }
+    public int Armor
+    {
+        get { return _armorPoints; }
+        set
+        {
+            if (value <= 0)
+                _armorPoints = 0;
+            else if (value > _maxHP)
+                _armorPoints = _maxArmor;
+            else
+                _armorPoints = value;
+        }
+    }
     public int StartArmor { get { return _startArmor; } }
 
     #endregion
