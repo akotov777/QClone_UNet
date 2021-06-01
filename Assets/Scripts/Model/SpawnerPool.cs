@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 using System.Collections.Generic;
 
 
-public sealed class SpawnerPool : NetworkBehaviour
+public sealed class SpawnerPool : MonoBehaviour
 {
     #region Fields
 
@@ -95,7 +95,7 @@ public sealed class SpawnerPool : NetworkBehaviour
 
     public void UnSpawnObject(GameObject spawned)
     {
-        spawned.SetActive(false);
+        spawned.GetComponent<IPoolable>().ReturnToPool();
     }
 
     #endregion
