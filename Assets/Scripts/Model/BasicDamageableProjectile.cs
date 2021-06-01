@@ -84,7 +84,6 @@ public class BasicDamageableProjectile : NetworkBehaviour, IPoolable, ISpawnSetU
     private IEnumerator LifeTimeDestroy()
     {
         yield return new WaitForSeconds(_lifeTime);
-        Debug.LogWarning("LTD");
         UnSpawn();
     }
 
