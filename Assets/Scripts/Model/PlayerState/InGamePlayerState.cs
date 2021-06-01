@@ -30,9 +30,9 @@ public class InGamePlayerState : PlayerState
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            _featureTable[FeatureType.FiringFeature].IsActive = false;
-            _featureTable[FeatureType.MovementFeature].IsActive = false;
-            _featureTable[FeatureType.LookingFeature].IsActive = false;
+            Inputs.Movement.IsActive = false;
+            Inputs.Looking.IsActive = false;
+            Inputs.Firing.IsActive = false;
             Cursor.lockState = CursorLockMode.None;
 
             _ui.ShowGameMenu();

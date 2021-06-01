@@ -33,17 +33,12 @@ public class FiringFeature : ExecutablePlayerFeature
         _netServices.SpawnWithSetUp(_projectile, new SetUpSettings(position, direction));
     }
 
-    #endregion
-
-
-    #region IPLayerFeature
-
     public override void ExecuteFeature()
     {
         if (!IsActive)
             return;
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Inputs.Firing.FireButtonDown())
         {
             Fire(_direction.rotation * Vector3.forward, _startPosition.position);
         }

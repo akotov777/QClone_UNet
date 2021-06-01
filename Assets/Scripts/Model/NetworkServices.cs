@@ -62,13 +62,56 @@ public sealed class NetworkServices : NetworkBehaviour
     }
 
     [Command]
+    public void CmdTeleportObject(GameObject netObj, Matrix4x4 transformTo)
+    {
+        RpcTeleportObject(netObj, transformTo);
+    }
+
+    [ClientRpc]
+    private void RpcTeleportObject(GameObject netObj, Matrix4x4 transformTo)
+    {
+        netObj.transform.SetFromMatrix(transformTo);
+    }
+
+    [Command]
+    public void CmdChangeNetworkedObjectMaterial(GameObject netObj, string materialInResources)
+    {
+        RpcChangeNetworkedObjectMaterial(netObj, materialInResources);
+    }
+
+    [ClientRpc]
+    private void RpcChangeNetworkedObjectMaterial(GameObject netObj, string materialInResources)
+    {
+        var renderer = netObj.GetComponent<Renderer>();
+        Material mat = Resources.Load<Material>(materialInResources);
+        renderer.sharedMaterial = mat;
+    }
+
+    [Command]
+    public void CmdChangeNetworkedObjectMaterials(GameObject netObj, string materialInResources)
+    {
+        RpcChangeNetworkedObjectMaterials(netObj, materialInResources);
+    }
+
+    [ClientRpc]
+    private void RpcChangeNetworkedObjectMaterials(GameObject netObj, string materialInResources)
+    {
+        var renderers = netObj.GetComponentsInChildren<Renderer>();
+        Material mat = Resources.Load<Material>(materialInResources);
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].sharedMaterial = mat;
+        }
+    }
+
+    [Command]
     private void CmdSpawn(NetworkHash128 hash, Vector3 position)
     {
         var chekingGO = Convert(hash);
 
         if (chekingGO.HasComponent<IPoolable>())
         {
-            CmdSpawnFromPool(chekingGO, position);
+            SpawnFromPool(chekingGO, position);
         }
         else
         {
@@ -77,8 +120,8 @@ public sealed class NetworkServices : NetworkBehaviour
         }
     }
 
-    [Command]
-    private void CmdSpawnFromPool(GameObject prefab, Vector3 position)
+    [Server]
+    private void SpawnFromPool(GameObject prefab, Vector3 position)
     {
         GameObject go = _pool.GetFromPool(position, prefab);
         NetworkServer.Spawn(go);
