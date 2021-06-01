@@ -9,7 +9,11 @@ public class BasicDamageableProjectile : NetworkBehaviour, IPoolable, ISpawnSetU
 
     [SerializeField] private float _lifeTime;
     [SerializeField] private float _speed;
+    [SerializeField, Range(1, 100)] private int _dealingDamage;
+    [SerializeField, Range(1, 20)] private float _splashRadius;
+    [SerializeField] private ParticleSystem _particleSystem;
     private bool _isInPool;
+    private Rigidbody _rigidBody;
     [SyncVar]
     private Vector3 _direction;
 
@@ -17,6 +21,11 @@ public class BasicDamageableProjectile : NetworkBehaviour, IPoolable, ISpawnSetU
 
 
     #region UnityMethods
+
+    void Awake()
+    {
+        _rigidBody = GetComponent<Rigidbody>();
+    }
 
     [ServerCallback]
     private void OnEnable()
@@ -33,15 +42,13 @@ public class BasicDamageableProjectile : NetworkBehaviour, IPoolable, ISpawnSetU
     [ServerCallback]
     void Update()
     {
-        transform.position += _direction * _speed * Time.deltaTime;
     }
 
     [ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
         RpcDoDamage();
-        DoDamage();
-        UnSpawn();
+        StartCoroutine(PlayParticleAndUnSpawn());
     }
 
     #endregion
@@ -55,11 +62,11 @@ public class BasicDamageableProjectile : NetworkBehaviour, IPoolable, ISpawnSetU
     }
 
     private void DoDamage()
-    {
+    { 
         var info = new CollisionInfo();
-        info.IntDamage = 10;
+        info.IntDamage = _dealingDamage;
 
-        var colliders = Physics.OverlapSphere(transform.position, 10f);
+        var colliders = Physics.OverlapSphere(transform.position, _splashRadius);
         foreach (var coll in colliders)
         {
             if (coll.gameObject.HasComponent<Player>())
@@ -69,7 +76,28 @@ public class BasicDamageableProjectile : NetworkBehaviour, IPoolable, ISpawnSetU
         }
     }
 
+    private void PlayParticle()
+    {
+        GetComponent<Renderer>().enabled = false;
+        _particleSystem.Play();
+    }
+
     [ClientRpc]
+    private void RpcPlayParticle()
+    {
+        PlayParticle();
+    }
+
+    private IEnumerator PlayParticleAndUnSpawn()
+    {
+        _rigidBody.velocity = Vector3.zero;
+        StopCoroutine(LifeTimeDestroy());
+        RpcPlayParticle();
+        yield return new WaitForSeconds(_particleSystem.main.startLifetime.constant);
+        UnSpawn();
+    }
+
+    [ClientRpc, ClientCallback]
     public void RpcDoDamage()
     {
         DoDamage();
@@ -97,6 +125,7 @@ public class BasicDamageableProjectile : NetworkBehaviour, IPoolable, ISpawnSetU
     public GameObject GetFromPool()
     {
         gameObject.SetActive(true);
+        GetComponent<Renderer>().enabled = true;
         _isInPool = false;
         return gameObject;
     }
@@ -104,6 +133,7 @@ public class BasicDamageableProjectile : NetworkBehaviour, IPoolable, ISpawnSetU
     public void ReturnToPool()
     {
         _direction = Vector3.zero;
+        _rigidBody.velocity = Vector3.zero;
         gameObject.SetActive(false);
         _isInPool = true;
     }
@@ -116,6 +146,7 @@ public class BasicDamageableProjectile : NetworkBehaviour, IPoolable, ISpawnSetU
     public void SpawnSetUp(SetUpSettings settings)
     {
         SetDirection(settings.direction.normalized);
+        _rigidBody.velocity = _direction * _speed;
         gameObject.SetActive(true);
     }
 

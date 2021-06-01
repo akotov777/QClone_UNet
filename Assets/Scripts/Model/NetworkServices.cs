@@ -62,18 +62,6 @@ public sealed class NetworkServices : NetworkBehaviour
     }
 
     [Command]
-    public void CmdChangePlayerHP(int newHP)
-    {
-        GetComponent<Player>().HP = newHP;
-    }
-
-    [Command]
-    public void CmdChangePlayerArmor(int newArmor)
-    {
-        GetComponent<Player>().Armor = newArmor;
-    }
-
-    [Command]
     public void CmdTeleportObject(GameObject netObj, Matrix4x4 transformTo)
     {
         RpcTeleportObject(netObj, transformTo);

@@ -42,13 +42,13 @@ public class Player : NetworkBehaviour
         {
             if (value <= 0)
             {
-                _healthPoints = 0;
+                CmdChangeHP(0);
                 OnHealthZeroOrBelow.Invoke();
             }
             else if (value > _maxHP)
-                _healthPoints = _maxHP;
+                CmdChangeHP(_maxHP);
             else
-                _healthPoints = value;
+                CmdChangeHP(value);
         }
     }
     public int StartHP { get { return _startHP; } }
@@ -104,6 +104,12 @@ public class Player : NetworkBehaviour
     {
         gameObject.GetComponentInChildren<Camera>().enabled = false;
         gameObject.GetComponentInChildren<AudioListener>().enabled = false;
+    }
+
+    [Command]
+    private void CmdChangeHP(int newHP)
+    {
+        _healthPoints = newHP;
     }
 
     #endregion
