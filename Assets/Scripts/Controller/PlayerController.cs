@@ -17,6 +17,13 @@ public sealed class PlayerController
     #endregion
 
 
+    #region Properties
+
+    public Player Player { get { return _player; } }
+
+    #endregion
+
+
     #region ClassLifeCycles
 
     public PlayerController()

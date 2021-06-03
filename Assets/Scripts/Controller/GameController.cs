@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Networking;
 
 
@@ -8,10 +9,12 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private UIController _uIController;
-    private DelayedActionController _repeatableActionController;
+    private DelayedActionController _delayedActionController;
 
     [SerializeField] private NetworkManager _netManager;
     private NetworkClient _client;
+    public Action PlayerCreatedCallBack;
+    public Action PlayerDestroyedCallBack;
 
     #endregion
 
@@ -27,9 +30,11 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        PlayerCreatedCallBack = () => _playerController = new PlayerController();
+        PlayerDestroyedCallBack = () => _playerController = null;
         _uIController = Instantiate(_uIController);
         _netManager = FindObjectOfType<NetworkManager>();
-        _repeatableActionController = new DelayedActionController();
+        _delayedActionController = new DelayedActionController();
     }
 
     void Update()
@@ -45,7 +50,7 @@ public class GameController : MonoBehaviour
     private void Execute()
     {
         _playerController?.Execute(); // ?. rude
-        _repeatableActionController.Execute();
+        _delayedActionController.Execute();
     }
 
     public void QuitApplication()
@@ -55,6 +60,8 @@ public class GameController : MonoBehaviour
 
     public void Disconnect()
     {
+        if (NetworkServer.active)
+            NetworkServer.Shutdown();
         _client.Disconnect();
         _uIController.CloseGameMenu();
         _uIController.ShowMainMenu();
@@ -72,9 +79,14 @@ public class GameController : MonoBehaviour
         _client = _netManager.StartHost();
     }
 
-    public void SetUpPlayerController()
+    public void PlayerOnCreatedCallBack()
     {
-        _playerController = new PlayerController();
+        PlayerCreatedCallBack.Invoke();
+    }
+
+    public void PlayerOnDestroyedCallBack()
+    {
+        PlayerDestroyedCallBack.Invoke();
     }
 
     #endregion

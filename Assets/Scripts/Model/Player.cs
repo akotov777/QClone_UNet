@@ -23,6 +23,8 @@ public class Player : NetworkBehaviour
     private CharacterController _characterController;
 
     public Action OnHealthZeroOrBelow;
+    public Action OnHPChanged;
+    public Action OnArmorChanged;
 
     #endregion
 
@@ -49,6 +51,7 @@ public class Player : NetworkBehaviour
                 CmdChangeHP(_maxHP);
             else
                 CmdChangeHP(value);
+            OnHPChanged.Invoke();
         }
     }
     public int StartHP { get { return _startHP; } }
@@ -63,6 +66,7 @@ public class Player : NetworkBehaviour
                 _armorPoints = _maxArmor;
             else
                 _armorPoints = value;
+            OnArmorChanged.Invoke();
         }
     }
     public int StartArmor { get { return _startArmor; } }
@@ -79,6 +83,14 @@ public class Player : NetworkBehaviour
             LocalInitialization();
         if (!isLocalPlayer)
             OtherClientsInitialization();
+
+        FindObjectOfType<GameController>().PlayerOnCreatedCallBack();
+    }
+
+    private void OnDestroy()
+    {
+        if (isLocalPlayer)
+            FindObjectOfType<GameController>().PlayerOnDestroyedCallBack();
     }
 
     #endregion
@@ -97,7 +109,7 @@ public class Player : NetworkBehaviour
 
     private void LocalInitialization()
     {
-        FindObjectOfType<GameController>().SetUpPlayerController();
+
     }
 
     private void OtherClientsInitialization()

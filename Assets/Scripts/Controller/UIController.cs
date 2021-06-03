@@ -7,6 +7,7 @@ public class UIController : MonoBehaviour
 
 	[SerializeField] private BaseUI _mainMenu;
 	[SerializeField] private BaseUI _gameMenu;
+	[SerializeField] private BaseUI _hUD;
 
 	#endregion
 
@@ -24,6 +25,7 @@ public class UIController : MonoBehaviour
 	{
 		ShowMainMenu();
 		CloseGameMenu();
+		CloseHUD();
 	}
 
 	void Update()
@@ -46,6 +48,11 @@ public class UIController : MonoBehaviour
 		_gameMenu.ToggleOn();
 	}
 
+	public void ShowHUD()
+	{
+		_hUD.ToggleOn();
+	}
+
 	public void CloseMainMenu()
     {
 		_mainMenu.ToggleOff();
@@ -56,6 +63,10 @@ public class UIController : MonoBehaviour
 		_gameMenu.ToggleOff();
     }
 
+	public void CloseHUD()
+	{
+		_hUD.ToggleOff();
+	}
 
 	#endregion
 }
